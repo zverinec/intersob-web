@@ -1,0 +1,19 @@
+{block #content}
+	<h1>Přehled týmů</h1>
+	<p>Zde najdete seznam všech týmů registrovaných v letošním ročníku. Celkem je zaregistrovaných {count($teams)} týmů.</p>
+	
+	{if count($teams) > 0}
+		{foreach $teams as $team}
+			<h2>{$team->name}</h2>
+			{if isSet($members[$team->id_team])}
+				{foreach $members[$team->id_team] as $member}
+					{continueIf empty($member->name)}
+					{$member->name} (<em>{$member->school}</em>)
+					{if !$iterator->isLast()}, {/if}
+				{/foreach}
+			{/if}
+		{/foreach}
+	{else}
+		<p><em>Zatím není zaregistrován první tým. Buďte <a href='{plink registration,$event->date->format('Y')}'>první</a>!</em></p>
+	{/if}
+{/block}

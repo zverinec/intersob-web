@@ -1,0 +1,38 @@
+{block #content}
+	<h1>Přehled týmů (pro organizátory)</h1>
+	
+	{if count($teams) > 0}
+		{foreach $teams as $team}
+			{first}<table>{/first}
+			{first 20}
+				<tr>
+					<th>Název týmu</th>
+					<th>Kontaktní telefon</th>
+					<th>Členové týmu</th>
+				</tr>
+			{/first}
+			<tr {if $iterator->isEven()}class='even'{/if} >
+				<td>{$team->name}</td>
+				<td>{$team->contact_phone}</td>
+				<td>
+					{if isSet($members[$team->id_team])}
+						<table>
+						{foreach $members[$team->id_team] as $member}
+								{continueIf empty($member->name)}
+								<tr>
+									<td>{$member->name}</td>
+									<td>{$member->age}</td>
+									<td>{$member->school}</td>
+									<td>{$member->email}</td>
+								</tr>
+						{/foreach}	
+						</table>
+					{/if}
+				</td>
+			</tr>
+			{last}</table>{/last}
+		{/foreach}
+	{else}
+		<p><em>Zatím není zaregistrovaný žádný tým.</em></p>
+	{/if}
+{/block}

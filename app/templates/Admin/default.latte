@@ -1,0 +1,10 @@
+{block #content}
+	<h1>Administrace</h1>
+	<p>Jste přihlášeni jako: <em>{$user->getIdentity()->nickname}</em>.</p>
+	
+	<h2>Možnosti</h2>
+	<ul>
+		<li><a href="{plink Year:}">Spravovat ročníky</a></li>
+		<li><a href="{link logout}">Odhlásit</a></li>
+	</ul>
+{/block}

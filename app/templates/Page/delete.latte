@@ -1,0 +1,9 @@
+{block #content}
+	<h1>Smazat stránku</h1>
+	
+	<p>Používejte výjimečně a s rozvahou, <strong>tento krok je nevratný</strong>!</p>
+	
+	<p>Jméno stránky: <strong>{$data->heading}</strong></p>
+	<p>Jméno ročníku: <strong>{$event->name}</strong></p>
+	{control deleteForm}
+{/block}

@@ -1,0 +1,11 @@
+{var $description = "Zaregistrujte svůj tým do InterSoBa a přijeď si užít den plný zábavy, radosti a netradičního soutěžení."}
+{block #content}
+	<h1>Registrace týmu</h1>
+	{include ../flashes.latte}
+	{if isSet($registrationOpen) && $registrationOpen}
+		<p>Po vyplnění níže uvedého formuláře budete zaregistrováni. Věnujte pozornost výběru jméno a hesla, které slouží pro případnou pozdější změnu údajů. Zaregistrováním bude záznam o vašem týmu zobrazen v seznamu týmů.</p>
+		{widget regForm}
+	{else}
+		<p><strong>Registrace mezi {$event->reg_open|date: "j.n.Y H:i"} a {$event->reg_closed|date: "j.n.Y H:i"}</strong>.</p>
+	{/if}
+{/block}

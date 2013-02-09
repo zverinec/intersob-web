@@ -1,0 +1,27 @@
+{
+	"name": "jandrabek/intersob-web",
+	"description": "Website for INTERSOB events.",
+	"homepage": "http://nette.org",	
+	"authors": [
+		{
+			"name": "Jan Drábek",
+			"homepage": "http://www.jandrabek.cz"
+		},
+		{
+			"name": "Organizátoři KS a další",
+			"homepage": "http://ks.math.muni.cz/"
+		}
+	],
+	"config": {
+		"vendor-dir": "libs"
+	},
+	"require": {
+		"php": ">= 5.3.0",
+		"nette/nette": ">= 2.0.7",
+		"jandrabek/nette-mailpanel": "2.1",
+		"dg/texy": "v2.2.0"
+	},
+    "require-dev": {
+        "nette/tester": "@dev"
+	}
+}

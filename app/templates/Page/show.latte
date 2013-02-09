@@ -1,0 +1,6 @@
+{var $description = $page->description}
+{var $keywords = $page->keywords}
+{block #content}
+	<h1>{$page->heading}</h1>
+	{!$page->content|texy}
+{/block}

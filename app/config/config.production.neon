@@ -1,0 +1,45 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+parameters:
+	security:
+		salt: 'aeqyU9dRnDIQbsYFJ6aPtIXGvS0Gq2En'
+	database:
+		driver: mysql
+		host: localhost
+		database: intersob-web
+		username: root
+		password: 
+
+php:
+	date.timezone: Europe/Prague
+	# zlib.output_compression: yes
+
+nette:
+	application:
+		errorPresenter: Error
+
+	database:
+		dsn: '%database.driver%:host=%database.host%;dbname=%database.database%'
+		user: %database.username%
+		password: %database.password%
+
+	session:
+		expiration: 14 days
+
+
+services:
+	database: @nette.database.default
+	authenticator: Intersob\Models\User(@database,%security.salt%)
+	routerFactory: RouterFactory
+	router: @routerFactory::createRouter
+
+factories:
+	team: Intersob\Models\Team(@database,%security.salt%)
+	teamMember: Intersob\Models\TeamMember
+	page: Intersob\Models\Page
+	year: Intersob\Models\Year
+	

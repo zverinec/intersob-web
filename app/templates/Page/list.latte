@@ -1,0 +1,24 @@
+{block #content}
+	<h1>Seznam stránek v ročníku {$event->date->format("Y")}</h1>
+	<p>Jméno ročníku: <strong>{$event->name}</strong></p>
+	
+	{if $user->isInRole(Intersob\Models\User::ADMIN)}
+		<div class="admin-options"><a href="{link create, $event->date->format('Y')}" class="button-add">Přidat stránku</a></div>
+	{/if}
+		
+	{include ../flashes.latte}
+
+	{foreach $pages as $page}
+		<h2><a href="{plink Page:show, $event->date->format("Y"), $page->url}">{$page->heading}</a></h2>
+		<p>{$page->description|truncate:160}</p>
+			
+		{if $user->isInRole(Intersob\Models\User::ADMIN)}
+			<div class="admin-options">
+				<a href="{link update, $page->id_page}" class="button-edit">Upravit</a>
+				<a href="{link delete, $page->id_page}" class="button-delete">Smazat</a>
+				<span>URL: {plink Page:show, $event->date->format("Y"), $page->url}</span>
+				<hr class="cleaner" />
+			</div>
+		{/if}
+	{/foreach}
+{/block}

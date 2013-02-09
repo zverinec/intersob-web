@@ -1,0 +1,21 @@
+{var $robots = noindex,nofolow}
+
+{block #content}
+	<h1>Tým: <strong>{$user->getIdentity()->name}</strong></h1>
+	<p><a href='{link logout, $event->date->format('Y')}'>Odhlásit</a></p>
+	
+	{include ../flashes.latte}
+	
+	{if isSet($registrationOpen) && !$registrationOpen}
+		<div class='flash info'>Údaje již nelze upravit, protože skončila registrace.</div>
+	{/if}
+	
+	<h2>Změna údajů týmu</h2>
+	{widget settingsForm}
+		
+	<h2>Změna hesla</h2>
+	{widget changePassword}
+	
+	
+	
+{/block}
