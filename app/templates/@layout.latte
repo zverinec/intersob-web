@@ -3,29 +3,59 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="content-language" content="cz" />
-		<meta charset="UTF-8">
+{*		<meta charset="UTF-8">*}
 			<meta name="description" content="{if !empty($description)}{$description}{else}InterSoB &ndash; zábavná a poučná jednodenní soutěž středoškolských studentů.{/if}" />
 			<meta name="keywords" content="{if !empty($keywords)}{$keywords}{/if}" />
-			<meta name="robots" content="{$robots}" n:ifset="$robots" />
+			<meta name="robots" content="{if isSet($robots)}{$robots}{else}INTERSOB, soutěž, středoškolská soutěž, středoškoláci, zábava, Masarykova univerzita, KSI, KEKS, BRKOS{/if}" />
+			<meta name="author" content="Jan Drábek, Martin Ukrop a kolektiv kolem korespondečních seminářů">
 
-			<title>{if !empty($title)} | {/if}InterSoB</title>
+			<title>{if !empty($title)}{$title} | {/if}{if isSet($event) && isSet($event->name)}{$event->name}{else}InterSoB{/if}</title>
 			<link href="{$basePath}/css/screen.css" media="screen" rel="stylesheet" type="text/css" />
 			
-			<link rel="icon" href="{$basePath}favicon.ico" type="image/x-icon" />
-			<title>INTERdisciplinární SOutěž Brno</title>
+			<link rel="icon" href="{$basePath}/favicon.ico" type="image/x-icon" />
 
 			{block scripts}
 			<script src="{$basePath}/js/jquery-v1.9.1.js"></script>
 			<script src="{$basePath}/js/netteForms.js"></script>
-			<script src="{$basePath}/js/main.js?<?php echo time(); ?>"></script>
+			<script type="text/javascript">
+$(function(){
+	var count = 0;
+    $('.volume select').ddslick({
+		width: 160,
+		background: "#2A2A2A",
+		onSelected: function(data){
+			if(count++ == 0) return;
+			//var pathname = window.location.pathname;
+			//if (pathname.substring(0, 6) !== "/" + data.selectedData.value + "/" && pathname.substring(0, 7) != "/admin/" && pathname.substring(0, 7) != "/year/") {
+				//console.log("HERE");
+				window.location = "{!$basePath}/" + data.selectedData.value + "/";	
+			//}
+		}
+	});
+	
+});
+			</script>
 			
 			{* Dropdown menu *}
-			<script src="{$basePath}/js/jquery.ddslick.min.js" type="text/javascript"></script>
+			<script src="{$basePath}/js/jquery.ddslick.js" type="text/javascript"></script>
 			{/block}
 
 		{block head}{/block}
 	</head>
 	<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38377270-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 		<div class="background-sob">
 			<img src="{$basePath}/images/background-sob.png" class="background-sob" alt="Logo InterSoBa" />
 		</div>
@@ -37,7 +67,7 @@
 				<div class="volume">
 						<select>
 							{foreach $yearsSelectBox as $volume}
-								<option value="{$volume->date->format('Y')}" {if $event->date->format('Y') == $volume->date->format('Y')}selected="selected"{/if}>Ročník {$volume->date->format('Y')}</option>
+								<option data-href="{$basePath}/{$volume->date->format('Y')}/" value="{$volume->date->format('Y')}" {if $event->date->format('Y') == $volume->date->format('Y')}selected="selected"{/if}>Ročník {$volume->date->format('Y')}</option>
 							{/foreach}
 						</select>
 				</div>
@@ -67,7 +97,7 @@
 
 			<div class="main">
 				<div class="facebook">
-					<a href="http://www.facebook.com/event.php?eid=401107163249316&index=1" title="InterSoB na Facebooku">
+					<a href="https://www.facebook.com/intersob" title="InterSoB na Facebooku">
 						<img src="{$basePath}/images/facebook.png" alt="facebook" />
 					</a>
 				</div>
@@ -106,6 +136,7 @@
 					<a href="http://ksi.fi.muni.cz/" title="Korespondenční Seminář z Informatiky" class="footer-logo ksi-logo"></a>
 					<a href="http://interlos.fi.muni.cz" title="INTERnetová LOgická Soutěž" class="footer-logo interlos-logo"></a>
 				</div> 
+				<div class="cleaner">&nbsp;</div>
 			</div>
 
 			<div  class="footer">
@@ -125,6 +156,7 @@
 					<a href="http://ksi.fi.muni.cz/" title="Korespondenční Seminář z Informatiky" class="footer-logo ksi-logo"></a>
 					<a href="http://interlos.fi.muni.cz" title="INTERnetová LOgická Soutěž" class="footer-logo interlos-logo"></a>
 				</div> 
+				<div class="cleaner">&nbsp;</div>
 			</div>
 
 		</div>

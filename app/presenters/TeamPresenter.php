@@ -4,6 +4,11 @@ use Nette\Application\UI;
 
 class TeamPresenter extends BasePresenter {
 
+	public function beforeRender() {
+		parent::beforeRender();
+		$this->template->icon = 'teams';
+	}
+
 	public function actionDefault($year) {
 		
 		$event = $this->prepareEvent($year);

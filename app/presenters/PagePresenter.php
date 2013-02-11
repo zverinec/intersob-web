@@ -151,6 +151,7 @@ class PagePresenter extends BasePresenter {
 	
 		$form->setCurrentGroup();
 		$form->addCheckbox('hidden', 'Stránka je skryta');
+		$form->addText('icon', 'Ikonka v zápatí');
 		return $form;
 	}
 

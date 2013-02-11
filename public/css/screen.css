@@ -7,7 +7,7 @@ used colors:
 */
 
 /* main elements - body, root, background-sob, cleaner */
-body { font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(42,42,42); background-color: rgb(242,242,242); text-align:justify; margin: 0; padding: 0; height: 100%; background-image: url("/images/background.png"); background-repeat: repeat; }
+body { font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(42,42,42); background-color: rgb(242,242,242); text-align:justify; margin: 0; padding: 0; height: 100%; background-image: url("../images/background.png"); background-repeat: repeat; }
 div.root { position: absolute; min-height: 100%; min-width: 100%; padding: 0; margin: 0; }
 img.background-sob { position: absolute; top: 357px; left: 150px; width: 150px; height: 119px; border: none; }
 div.cleaner { clear: both; }
@@ -17,7 +17,7 @@ hr.cleaner { clear:both; height:1px; margin: -1px 0 0 0; padding:0; border:none;
 div.header { min-height: 110px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); border-width: 0 0 4px 0; border-style: solid; border-color: rgb(186,13,13); }
 div.header-logo { position: relative; float: left; padding: 20px 15px 25px 5%; }
 img.header-logo { height: 65px; width: 286px; border: none; }
-div.volume { position: relative; float: left; padding-left: 20px; padding-top: 40px; font-weight: bold; font-size: 1.6em; color: rgb(186,13,13);}
+div.volume { position: relative; float: left; padding-left: 20px; padding-top: 55px; font-weight: bold; font-size: 1em; /*color: rgb(186,13,13);*/}
 
 div.header-menu { position: relative; float: right; min-width: 250px; min-height: 80px; padding: 20px 5% 10px 15px; color: rgb(242,242,242); vertical-align: middle; }
 ul.menu1 { float: right; margin: 0; padding: 0; list-style-type: none; text-align: left; }
@@ -50,7 +50,7 @@ h2 { font-size: 130%; font-weight: bold; }
 h3 { font-size: 115%; }
 a { text-decoration: none; font-weight: bold; color: rgb(186,13,13); }
 a:hover { text-decoration: underline; }
-table { margin: 0 auto 0 auto; border-width: 10px; border-style: solid; border-color: transparent; }
+table.centered { margin: 0 auto 0 auto; border-width: 10px; border-style: solid; border-color: transparent; }
 tr.even { background-color: rgb(222,222,222); }
 td { border: none; padding: 3px 5px 3px 5px; }
 .bold { font-weight: bold; }
@@ -65,18 +65,18 @@ textarea { float: left;}
 form table th { text-align: right; font-weight: bold; }
 fieldset { border: 2px solid rgb(222,222,222); margin-bottom: 10px;}
 legend { font-weight: bold; padding: 10px; background: rgb(222,222,222); }
-.button-add { background: url('/images/icons/add.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; }
-.button-edit { background: url('/images/icons/edit.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
-.button-delete { background: url('/images/icons/delete.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
-.button-list { background: url('/images/icons/list.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
+.button-add { background: url('../images/icons/add.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; }
+.button-edit { background: url('../images/icons/edit.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
+.button-delete { background: url('../images/icons/delete.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
+.button-list { background: url('../images/icons/list.png') no-repeat; height: 32px; display: block; padding-left: 42px; line-height: 32px; float: left; margin-left: 25px;}
 div.admin-options span { display: block; height: 32px; float: left; margin-left: 25px; line-height: 32px; }
 div.admin-options { background: rgb(222,222,222); padding: 10px; border-radius: 10px; }
 
 /* flash messages and error messages */
 div.flash { padding: 10px; padding-left: 41px; margin-bottom: 10px; margin-top: 10px; font-weight: bold; }
-div.info { border: 3px solid rgb(7,49,148); background: rgb(205,213,235) url('/images/icons/info.png') no-repeat left center; }
-div.success { border: 3px solid rgb(25,103,1); background: rgb(194,224,182) url('/images/icons/success.png') no-repeat left center; }
-div.error, ul.error { border: 3px solid rgb(186,13,13); background: rgb(242,225,225) url('/images/icons/error.png') no-repeat left center; }
+div.info { border: 3px solid rgb(7,49,148); background: rgb(205,213,235) url('../images/icons/info.png') no-repeat left center; }
+div.success { border: 3px solid rgb(25,103,1); background: rgb(194,224,182) url('../images/icons/success.png') no-repeat left center; }
+div.error, ul.error { border: 3px solid rgb(186,13,13); background: rgb(242,225,225) url('../images/icons/error.png') no-repeat left center; }
 ul.error { list-style: none; padding: 10px; padding-left: 41px; margin-bottom: 10px; margin-top: 10px; font-weight: bold; }
 
 /* page specific css follows */
@@ -89,10 +89,10 @@ form.login-form label { font-size: 115%; font-weight: bold; }
 img.sob { width: 200px; height: 165px; border: none; float: right; }
 
 /* specific logos */
-.muni-logo { background-image:url('/images/logo-mu.png'); }
-.fi-logo { background-image:url('/images/logo-fi.png'); }
-.prf-logo { background-image:url('/images/logo-prf.png'); }
-.brkos-logo { background-image:url('/images/logo-brkos.png'); }
-.keks-logo { background-image:url('/images/logo-keks.png'); }
-.ksi-logo { background-image:url('/images/logo-ksi.png'); }
-.interlos-logo { background-image:url('/images/logo-los.png'); }
+.muni-logo { background-image:url('../images/logo-mu.png'); }
+.fi-logo { background-image:url('../images/logo-fi.png'); }
+.prf-logo { background-image:url('../images/logo-prf.png'); }
+.brkos-logo { background-image:url('../images/logo-brkos.png'); }
+.keks-logo { background-image:url('../images/logo-keks.png'); }
+.ksi-logo { background-image:url('../images/logo-ksi.png'); }
+.interlos-logo { background-image:url('../images/logo-los.png'); }

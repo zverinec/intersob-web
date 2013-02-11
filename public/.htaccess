@@ -1,12 +1,15 @@
 # Apache configuration file (see httpd.apache.org/docs/2.2/mod/quickreference.html)
+# General Apache options
+#AddHandler fcgid-script .fcgi
+#Options +FollowSymLinks +ExecCGI
+#AddDefaultCharset utf-8
 
 # disable directory listing
-Options -Indexes
 
 # enable cool URL
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	# RewriteBase /
+	RewriteBase /intersob
 
 	# prevents files starting with dot to be viewed by browser
 	RewriteRule /\.|^\. - [F]
