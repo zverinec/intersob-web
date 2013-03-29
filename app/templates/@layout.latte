@@ -6,7 +6,7 @@
 {*		<meta charset="UTF-8">*}
 			<meta name="description" content="{if !empty($description)}{$description}{else}InterSoB &ndash; zábavná a poučná jednodenní soutěž středoškolských studentů.{/if}" />
 			<meta name="keywords" content="{if !empty($keywords)}{$keywords}{/if}" />
-			<meta name="robots" content="{if isSet($robots)}{$robots}{else}INTERSOB, soutěž, středoškolská soutěž, středoškoláci, zábava, Masarykova univerzita, KSI, KEKS, BRKOS{/if}" />
+			<meta name="robots" content="{if isSet($robots)}{$robots}{else}INTERSOB, InterSob, soutěž, středoškolská soutěž, středoškoláci, zábava, Masarykova univerzita, KSI, KEKS, BRKOS{/if}" />
 			<meta name="author" content="Jan Drábek, Martin Ukrop a kolektiv kolem korespondečních seminářů">
 
 			<title>{if !empty($title)}{$title} | {/if}{if isSet($event) && isSet($event->name)}{$event->name}{else}InterSoB{/if}</title>
@@ -14,6 +14,7 @@
 			
 			<link rel="icon" href="{$basePath}/favicon.ico" type="image/x-icon" />
 
+			<meta property="og:image" content="{$baseUrl}/images/sob.png" />
 			{block scripts}
 			<script src="{$basePath}/js/jquery-v1.9.1.js"></script>
 			<script src="{$basePath}/js/netteForms.js"></script>

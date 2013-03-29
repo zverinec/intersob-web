@@ -1,7 +1,8 @@
+{var $icon = "teams"}
 {var $title = "Přehled týmů"}
 {block #content}
 	<h1>Přehled týmů</h1>
-	<p>Zde najdete seznam všech týmů registrovaných v letošním ročníku. Celkem je zaregistrovaných {count($teams)} týmů.</p>
+	<p>Zde najdete seznam všech týmů registrovaných v letošním ročníku. Celkem zaregistrovaných týmů: {count($teams)}</p>
 	
 	{if count($teams) > 0}
 		{foreach $teams as $team}
@@ -9,8 +10,8 @@
 			{if isSet($members[$team->id_team])}
 				{foreach $members[$team->id_team] as $member}
 					{continueIf empty($member->name)}
-					{$member->name} (<em>{$member->school}</em>)
-					{if !$iterator->isLast()}, {/if}
+					{$member->name} (<em>{$member->school}</em>){*
+					*}{if !$iterator->isLast()}, {/if}
 				{/foreach}
 			{/if}
 		{/foreach}
