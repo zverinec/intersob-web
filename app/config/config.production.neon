@@ -12,7 +12,9 @@ parameters:
 		host: localhost
 		database: intersob-web
 		username: root
-		password: 
+		password:
+	uploads:
+		dirs: [files]
 
 php:
 	date.timezone: Europe/Prague

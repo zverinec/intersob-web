@@ -1,4 +1,8 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
     "hash": "12d9ca7d06207fc939eee55345ad59b3",
     "packages": [
         {
@@ -15,7 +19,6 @@
                 "reference": "v2.2.0",
                 "shasum": ""
             },
-            "time": "2012-03-30 14:57:36",
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -37,16 +40,17 @@
             "description": "Texy converts plain text in easy to read Texy syntax into structurally valid (X)HTML. It supports adding of images, links, nested lists, tables and has full support for CSS. Texy supports hyphenation of long words (which reflects language rules), clickable emails and URL (emails are obfuscated against spambots), national typographic single and double quotation marks, ellipses, em dashes, dimension sign, nonbreakable spaces (e.g. in phone numbers), acronyms, arrows and many others. Texy code can optionally contain HTML tags.",
             "homepage": "http://texy.info",
             "keywords": [
-                "text",
-                "markdown",
                 "html",
+                "markdown",
+                "markup language",
+                "plain text",
+                "text",
+                "textile",
                 "texy",
                 "wiki",
-                "plain text",
-                "xhtml",
-                "markup language",
-                "textile"
-            ]
+                "xhtml"
+            ],
+            "time": "2012-03-30 14:57:36"
         },
         {
             "name": "jandrabek/nette-mailpanel",
@@ -57,10 +61,9 @@
                 "reference": "2.1"
             },
             "require": {
-                "php": ">=5.3.0",
-                "nette/nette": "2.0.*"
+                "nette/nette": "2.0.*",
+                "php": ">=5.3.0"
             },
-            "time": "2012-09-20 19:19:26",
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -75,51 +78,45 @@
             "description": "MailPanel is extension for Nette Framework which captures sent e-mails in development mode and shows them from debugger bar.",
             "homepage": "http://addons.nette.org/cs/mailpanel",
             "keywords": [
-                "mail",
-                "framework",
                 "debugging",
-                "mailing",
+                "framework",
+                "mail",
                 "mail panel",
+                "mailing",
                 "mailpanel",
                 "sessionmailer"
-            ]
+            ],
+            "time": "2012-09-20 19:19:26"
         },
         {
             "name": "nette/nette",
-            "version": "v2.0.8",
+            "version": "v2.0.14",
             "source": {
                 "type": "git",
-                "url": "http://github.com/nette/nette",
-                "reference": "v2.0.8"
+                "url": "https://github.com/nette/nette.git",
+                "reference": "a5e10a8925905978e824d28356fa9387f2e2957a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/nette/nette/archive/v2.0.8.zip",
-                "reference": "v2.0.8",
+                "url": "https://api.github.com/repos/nette/nette/zipball/a5e10a8925905978e824d28356fa9387f2e2957a",
+                "reference": "a5e10a8925905978e824d28356fa9387f2e2957a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
                 "ext-iconv": "*",
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "nette/tester": "@dev"
+                "nette/tester": "~0.9.5"
             },
             "suggest": {
-                "ext-mbstring": "*",
-                "ext-pdo": "*",
-                "ext-memcache": "*",
+                "ext-fileinfo": "*",
                 "ext-gd": "*",
-                "ext-fileinfo": "*"
+                "ext-mbstring": "*",
+                "ext-pdo": "*"
             },
-            "time": "2013-01-01 20:42:38",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "Nette/loader.php"
@@ -144,27 +141,82 @@
             "description": "Nette Framework - innovative framework for fast and easy development of secured web applications in PHP. Write less, have cleaner code and your work will bring you joy.",
             "homepage": "http://nette.org",
             "keywords": [
-                "templating",
-                "framework",
-                "database",
-                "dbal",
-                "debugging",
-                "mvc",
-                "micro",
                 "Forms",
-                "latte",
-                "neon",
+                "database",
+                "debugging",
+                "framework",
                 "mailing",
-                "images"
-            ]
+                "mvc",
+                "templating"
+            ],
+            "time": "2013-12-30 23:40:51"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "nette/tester",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tester.git",
+                "reference": "5a9f4604dd53d45d37eb5efbe1ae0fc7f1c979ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tester/zipball/5a9f4604dd53d45d37eb5efbe1ae0fc7f1c979ed",
+                "reference": "5a9f4604dd53d45d37eb5efbe1ae0fc7f1c979ed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "bin": [
+                "Tester/tester",
+                "Tester/coverage-report"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Tester/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "http://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "http://nette.org/contributors"
+                }
+            ],
+            "description": "An easy-to-use PHP Unit Testing framework.",
+            "homepage": "http://nette.org",
+            "keywords": [
+                "nette",
+                "testing",
+                "unit"
+            ],
+            "time": "2014-01-24 21:18:58"
+        }
+    ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
         "nette/tester": 20
-    }
+    },
+    "platform": {
+        "php": ">= 5.3.0"
+    },
+    "platform-dev": [
+
+    ]
 }
