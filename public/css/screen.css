@@ -110,3 +110,6 @@ img.sob { width: 200px; height: 165px; border: none; float: right; }
 ul.snatches li { font-style: italic; margin-bottom: 6px; }
 .bigger { font-size: 1.1em; }
 .bigger td { vertical-align: top; line-height: 150%; }
+.floated-left { float: left; margin: 20px; margin-left: 0px; }
+.floated-right { float: right; margin: 20px; margin-right: 0px; }
+
