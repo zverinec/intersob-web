@@ -127,6 +127,9 @@ class YearPresenter extends BasePresenter {
 		$form->addTextArea('content', 'Obsah titulní stránky:', 50,20)
 				->setRequired('Vyplňte, prosím, obsah titulní stránky.')
 				->setOption('description', 'Zobrazí se jako první stránka.');
+		$form->addGroup('Extras');
+		$form->addText('color', 'Doplňková barva', NULL, 30)
+			->setOption('description', 'Namísto výchozí červené (čáry, odkazy...)');
 		$form->setCurrentGroup();
 		return $form;
 	}

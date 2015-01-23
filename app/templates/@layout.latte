@@ -48,6 +48,17 @@ $(function(){
 			{/block}
 
 		{block head}{/block}
+		<style n:if="isset($event->color) && !empty($event->color)">
+			div.header { border-color: {$event->color}; }
+			div.header-menu a:hover { color: {$event->color}; }
+			hr.menu-rule { background-color: {$event->color}; }
+			a { color: {$event->color}; }
+			input.button:hover { background-color: {$event->color}; }
+			.dd-pointer-down { border-top: solid 6px {$event->color}; }
+			.dd-pointer-up { border-bottom: solid 6px {$event->color} !important; }
+			.dd-option-selected { background: {$event->color}; }
+			.dd-options { border: 4px solid {$event->color}; }
+		</style>
 	</head>
 	<body>
 <script type="text/javascript">

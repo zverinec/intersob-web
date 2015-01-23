@@ -14,7 +14,7 @@ div.cleaner { clear: both; height: 1px; overflow: hidden; }
 hr.cleaner { clear:both; height:1px; margin: -1px 0 0 0; padding:0; border:none; visibility: hidden; }
 
 /* header */
-div.header { min-height: 110px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); border-width: 0 0 4px 0; border-style: solid; border-color: rgb(186,13,13); }
+div.header { min-height: 110px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); border-width: 0 0 4px 0; border-style: solid; border-color: rgb(186,13,13); } /* Color overridable in @layout.latte */
 div.header-logo { position: relative; float: left; padding: 20px 15px 25px 5%; }
 img.header-logo { height: 65px; width: 286px; border: none; }
 div.volume { position: relative; float: left; padding-left: 0px; padding-top: 55px; font-weight: bold; font-size: 1em; }
@@ -24,8 +24,8 @@ ul.menu1 { float: right; margin: 0; padding: 0; list-style-type: none; text-alig
 ul.menu2 { float: right; margin: 0; padding: 0; list-style-type: none; text-align: right; }
 div.header-menu li { margin: 3px 0 3px 0; padding: 0; }
 div.header-menu a { color: rgb(242,242,242); }
-div.header-menu a:hover { color: rgb(186,13,13); text-decoration: none; }
-hr.menu-rule { float:right; width: 4px; height: 70px; border: none; background-color: rgb(186,13,13); margin: 0 20px 0 20px; }
+div.header-menu a:hover { color: rgb(186,13,13); text-decoration: none; } /* Color overridable in @layout.latte */
+hr.menu-rule { float:right; width: 4px; height: 70px; border: none; background-color: rgb(186,13,13); margin: 0 20px 0 20px; } /* Color overridable in @layout.latte */
 
 /* footer */
 div.footer { position: absolute; bottom: 0; min-height: 80px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); }
@@ -49,7 +49,7 @@ div.facebook:hover { background-color: rgb(59,89,152); }
 h1 { font-size: 200%; margin-top: 0; text-align: center; }
 h2 { font-size: 130%; font-weight: bold; }
 h3 { font-size: 115%; }
-a { text-decoration: none; font-weight: bold; color: rgb(186,13,13); }
+a { text-decoration: none; font-weight: bold; color: rgb(186,13,13); } /* Color overridable in @layout.latte */
 a:hover { text-decoration: underline; }
 table.centered { margin: 0 auto 0 auto; border-width: 10px; border-style: solid; border-color: transparent; }
 tr.even { background-color: rgb(222,222,222); }
@@ -59,7 +59,7 @@ td { border: none; padding: 3px 5px 3px 5px; }
 
 /* forms and buttons */
 input.button { background-color: rgb(42,42,42); font-size: 130%; font-weight: bold; color: rgb(242,242,242); border: none; margin:20px; padding: 10px 20px 10px 20px; }
-input.button:hover { background-color: rgb(186,13,13); cursor:pointer; }
+input.button:hover { background-color: rgb(186,13,13); cursor:pointer; } /* Color overridable in @layout.latte */
 input.text, textarea { border-style: solid; border-width: 2px; border-color: rgb(222,222,222); color: rgb(42,42,42); font-weight:bold; padding: 7px 10px 7px 10px; }
 textarea { float: left;}
 
