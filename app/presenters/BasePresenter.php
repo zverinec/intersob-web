@@ -1,31 +1,42 @@
 <?php
+use Intersob\Models\Admin;
+use Intersob\Models\Team;
+use Intersob\Models\Year;
+use Nette\Application\BadRequestException;
 
 /**
  * Base presenter for all application presenters.
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
+
+	/** @var Year */
+	public $year;
+
+	public function injectBase(Year $year) {
+		$this->year = $year;
+	}
 	
 	protected function ensureAdminRight() {
-		if(!$this->user->isInRole(\Intersob\Models\User::ADMIN)) {
+		if(!$this->user->isInRole(Admin::ADMIN)) {
 			$this->redirect("Admin:login");
 			exit;
 		}
 	}
 	protected function ensureNonAdminRight() {
-		if($this->user->isInRole(\Intersob\Models\User::ADMIN)) {
+		if($this->user->isInRole(Admin::ADMIN)) {
 			$this->redirect("Admin:");
 		}
 	}
 	
 	protected function ensureTeamRight() {
-		if(!$this->user->isInRole(\Intersob\Models\Team::TEAM)) {
-			$this->redirect("Team:login", $this->getParam('year'));
+		if(!$this->user->isInRole(Team::TEAM)) {
+			$this->redirect("Team:login", $this->getParameter('year'));
 			exit;
 		}
 	}
 	protected function ensureNonTeamRight() {
-		if($this->user->isInRole(\Intersob\Models\Team::TEAM)) {
-			$this->redirect("Team:settings", $this->getParam('year'));
+		if($this->user->isInRole(Team::TEAM)) {
+			$this->redirect("Team:settings", $this->getParameter('year'));
 		}
 	}
 	
@@ -33,18 +44,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		if(isSet($this->template->event) && $this->template->event->date->format('Y') == $year) {
 			return $this->template->event;
 		}
-		$model = $this->context->createYear();
-		$event = $model->findByYear($year);
+		$event = $this->year->findByYear($year);
 		if(!$event) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException;
 		}
 		$this->template->event = $event;
 		return $event;
 	}
 	
 	protected function prepareLastEvent() {
-		$model = $this->context->createYear();
-		$event = $model->findLastYear();
+		$event = $this->year->findLastYear();
 		if(!$event) {
 			throw new Nette\Application\BadRequestException();
 		}
@@ -55,12 +64,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	protected function beforeRender() {
 		parent::beforeRender();
 		if(empty($this->template->event)) {
-			$year = $this->getParam('year');
-			$model = $this->context->createYear();
+			$year = $this->getParameter('year');
 			if(empty($year)) {
-				$event = $model->findLastYear();
+				$event = $this->year->findLastYear();
 			} else {
-				$event = $model->findByYear($year);
+				$event = $this->year->findByYear($year);
 			}
 			if(!$event) {
 				//throw new Nette\Application\BadRequestException();
@@ -79,12 +87,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		}
 		
 		// Fetch all years
-		$model = $this->context->createYear();
-		$years = $model->findAll()->order('date DESC');
+		$years = $this->year->findAll()->order('date DESC');
 		$this->template->yearsSelectBox = $years;
 		
-		$event = $this->template->event;	
-		if ($this->user->isInRole(\Intersob\Models\Team::TEAM) && $this->user->getIdentity()->id_year != $event->id_year) {
+		$event = $this->template->event;
+		if ($this->user->isInRole(Team::TEAM) && $this->user->getIdentity()->id_year != $event->id_year) {
 			$this->user->logout();
 			$this->redirect('this');
 		}
@@ -96,12 +103,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		$texy->encoding = 'utf-8';
 		//$texy->allowedTags = \Texy::NONE;
 		//$texy->allowedStyles = \Texy::NONE;
-		$texy->setOutputMode(\Texy::HTML4_TRANSITIONAL);
+		$texy->setOutputMode(Texy::HTML5);
 
 		// registrace filtru
 		$template = parent::createTemplate($class);
 		$template->registerHelper('texy', callback($texy, 'process'));
 		return $template;
 	}
-	
 }

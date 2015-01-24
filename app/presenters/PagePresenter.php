@@ -1,8 +1,19 @@
 <?php
 
+use Intersob\Models\Admin;
+use Intersob\Models\Page;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI;
+use Nette\Utils\Strings;
 
 class PagePresenter extends BasePresenter {
+
+	/** @var Page */
+	private $page;
+
+	public function injectPage(Page $page) {
+		$this->page = $page;
+	}
 	
 	public function actionDefault($year = NULL) {
 //		if($year == NULL) {
@@ -14,32 +25,29 @@ class PagePresenter extends BasePresenter {
 	
 	public function actionShow($year, $url) {
 		$event = $this->prepareEvent($year);
-		$model2 = $this->context->createPage();
-		$page = $model2->findByYearAndUrl($event->id_year, $url);
+		$page = $this->page->findByYearAndUrl($event->id_year, $url);
 		if(!$page) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
-		if($page->hidden && !$this->user->isInRole(\Intersob\Models\User::ADMIN)) {
-			throw new Nette\Application\BadRequestException();
+		if($page->hidden && !$this->user->isInRole(Admin::ADMIN)) {
+			throw new BadRequestException();
 		}
 		$this->template->page = $page;
 	}
 
 	public function actionList($year) {
-		$model = $this->context->createYear();
-		$yearData = $model->findByYear($year);
+		$yearData = $this->year->findByYear($year);
 		if(!$yearData) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
-		$model2 = $this->context->createPage();
-		$pages = $model2->findByYear($yearData->id_year);
+		$pages = $this->page->findByYear($yearData->id_year);
 		
 		$this->template->pages = $pages;
 	}
 	
 	public function actionCreate($year) {
 		if(empty($year)) {
-			throw new \Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
 		$this->ensureAdminRight();
 		
@@ -52,24 +60,22 @@ class PagePresenter extends BasePresenter {
 	}
 	public function createFormSent(Nette\Forms\Form $form) {
 		$values = $form->values;
-		$this->prepareEvent($this->getParam('year'));
+		$this->prepareEvent($this->getParameter('year'));
 		$values['id_year'] = $this->template->event->id_year;
 		$values['url'] = Nette\Utils\Strings::webalize($values['url']);
-		$model = $this->context->createPage();
 		try {
-			$model->insert($values);
+			$this->page->insert($values);
 		} catch(\Exception $e) {
 			$form->addError('Vložení nové stránky selhalo, stránka s daným URL již v ročníku existuje.');
 			return;
 		}
 		$this->flashMessage('Nová stránka byla úspěšně vytvořena.', 'success');
-		$this->redirect('list', $this->getParam('year'));
+		$this->redirect('list', $this->getParameter('year'));
 	}
 	public function actionUpdate($id) {
 		$this->ensureAdminRight();
-		
-		$model = $this->context->createPage();
-		$data = $model->find($id)->toArray();
+
+		$data = $this->page->find($id)->toArray();
 		
 		$this->getComponent('updateForm')->setDefaults($data);
 	}
@@ -81,27 +87,24 @@ class PagePresenter extends BasePresenter {
 	}
 	public function updateFormSent(Nette\Forms\Form $form) {
 		$values = $form->values;
-		$values['url'] = Nette\Utils\Strings::webalize($values['url']);
-		$id = $this->getParam('id');
-		$model = $this->context->createPage();
+		$values['url'] = Strings::webalize($values['url']);
+		$id = $this->getParameter('id');
 		try {
-			$new = $model->update($id, $values);
+			$new = $this->page->update($id, $values);
 		} catch(\Exception $e) {
 			$form->addError('Upravení stránky selhalo, stránka s daným URL již v ročníku existuje.');
 			return;
 		}
 		$this->flashMessage('Stránky byla úspěšně upravena.', 'success');
-		$model2 = $this->context->createYear();
-		$year = $model2->find($new->id_year);
+		$year = $this->year->find($new->id_year);
 		$this->redirect('list', $year->date->format('Y'));
 	}
 	public function actionDelete($id) {
 		$this->ensureAdminRight();
-		
-		$model = $this->context->createPage();
-		$data = $model->find($id);
+
+		$data = $this->page->find($id);
 		if(!$data) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
 		$this->template->data = $data;
 	}
@@ -113,8 +116,8 @@ class PagePresenter extends BasePresenter {
 		return $form;
 	}
 	public function deleteFormSent(Nette\Forms\Form $form) {
-		$id = $this->getParam('id');
-		$model = $this->context->createPage();
+		$id = $this->getParameter('id');
+		$model = $this->page;
 		$page = $model->find($id);
 		if($form['yes']->isSubmittedBy()) {
 			$model->delete($id);
@@ -122,8 +125,7 @@ class PagePresenter extends BasePresenter {
 		} else {
 			$this->flashMessage('Nic nebylo provedeno.', 'info');
 		}
-		$model2 = $this->context->createYear();
-		$year = $model2->find($page->id_year);
+		$year = $this->year->find($page->id_year);
 		$this->redirect('list', $year->date->format('Y'));
 		return;
 	}

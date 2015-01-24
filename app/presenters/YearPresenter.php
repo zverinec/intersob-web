@@ -1,12 +1,13 @@
 <?php
 
+use Nette\Application\BadRequestException;
 use Nette\Application\UI;
+use Nette\Utils\DateTime;
 
 class YearPresenter extends BasePresenter {
 	
 	public function actionDefault() {
-		$model = $this->context->createYear();
-		$years = $model->findAll()->order('date DESC');
+		$years = $this->year->findAll()->order('date DESC');
 		$this->template->years = $years;
 	}
 	
@@ -16,11 +17,10 @@ class YearPresenter extends BasePresenter {
 	}
 	public function actionUpdate($id) {
 		$this->ensureAdminRight();
-		
-		$model = $this->context->createYear();
-		$data = $model->find($id);
+
+		$data = $this->year->find($id);
 		if(!$data) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
 		$data = $data->toArray();
 		$data["date"] = $data['date']->format("Y-m-d");
@@ -28,11 +28,10 @@ class YearPresenter extends BasePresenter {
 	}
 	public function actionDelete($id) {
 		$this->ensureAdminRight();
-		
-		$model = $this->context->createYear();
-		$data = $model->find($id);
+
+		$data = $this->year->find($id);
 		if(!$data) {
-			throw new Nette\Application\BadRequestException();
+			throw new BadRequestException();
 		}
 		$this->template->data = $data;
 	}
@@ -45,10 +44,9 @@ class YearPresenter extends BasePresenter {
 		return $form;
 	}
 	public function deleteFormSent(Nette\Forms\Form $form) {
-		$id = $this->getParam('id');
+		$id = $this->getParameter('id');
 		if($form['yes']->isSubmittedBy()) {
-			$model = $this->context->createYear();
-			$model->delete($id);
+			$this->year->delete($id);
 			$this->flashMessage('Ročník byl úspěšně smazán.', 'success');
 		} else {
 			$this->flashMessage('Nic nebylo provedeno.', 'info');
@@ -65,8 +63,8 @@ class YearPresenter extends BasePresenter {
 	}
 	public function createFormSent(Nette\Forms\Form $form) {
 		$values = $form->values;
-		$date = new \Nette\DateTime($values['date']);
-		$model = $this->context->createYear();
+		$date = new DateTime($values['date']);
+		$model = $this->year;
 		if($model->findByYear($date->format("Y")) != FALSE) {
 			$form->addError('Ve stejném roce už akce jednou proběhla.');
 			return;
@@ -84,15 +82,14 @@ class YearPresenter extends BasePresenter {
 		return $form;
 	}
 	public function updateFormSent(Nette\Forms\Form $form) {
-		$id = $this->getParam('id');
+		$id = $this->getParameter('id');
 		$values = $form->values;
-		$model = $this->context->createYear();
-		$date = new \Nette\DateTime($values['date']);
-		if(($temp = $model->findByYear($date->format("Y"))) != FALSE && $temp->id_year != $id) {
+		$date = new DateTime($values['date']);
+		if(($temp = $this->year->findByYear($date->format("Y"))) != FALSE && $temp->id_year != $id) {
 			$form->addError('Ve stejném roce už akce jednou proběhla.');
 			return;
 		}
-		$model->update($id,$values);
+		$this->year->update($id,$values);
 		$this->flashMessage('Ročník byl úspěšně upraven.', 'success');
 		$this->redirect('default');
 	}
@@ -119,6 +116,10 @@ class YearPresenter extends BasePresenter {
 				->setRequired('Vyplňte, prosím, datum uzavření registrace.')
 				->addRule(callback('\Intersob\Models\Helpers','validateDateTime'), 'Vyplňte, prosím, datum uzavření ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
+		$form->addText('info_embargo', 'Deadline pro úpravu údajů týmu:')
+			->setRequired('Vyplňte, prosím, deadline pro úpravu údajů týmu.')
+			->addRule(callback('\Intersob\Models\Helpers','validateDateTime'), 'Vyplňte, prosím, deadline pro úpravu údajů týmu ve správném tvaru.')
+			->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addGroup('Obsah');
 		$form->addTextArea('menu1', 'Pravý sloupec menu:', 50,10)
 				->setOption('description', 'Položky v pravém menu daného ročníku.');

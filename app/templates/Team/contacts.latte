@@ -1,6 +1,10 @@
 {var $title = "Přehled týmů 2"}
 {block #content}
 	<h1>Přehled týmů (pro organizátory)</h1>
+
+	<p><strong>Řazení</strong>: <a href="{link this, $year, NULL, $members2}">dle názvů týmů</a>, <a href="{link this, $year, 'inserted', $members2}">dle času registrace</a></p>
+
+	<p><strong>Výpis členů</strong>: <a href="{link this, $year, $order, NULL}">kompletní</a>, <a href="{link this, $year, $order, 'summary'}">stručný</a>, <a href="{link this, $year, $order, 'none'}">žádný</a></p>
 	
 	{if count($teams) > 0}
 		{foreach $teams as $team}
@@ -8,28 +12,38 @@
 			{first 20}
 				<tr>
 					<th>Název týmu</th>
-					<th>Kontaktní telefon</th>
-					<th>Členové týmu</th>
+					<th>Kontakt</th>
+					<th>Registrace</th>
+					<th n:if="$members2 !== 'none'">Členové</th>
+					<th n:if="$members2 !== 'none'">Členů</th>
 				</tr>
 			{/first}
 			<tr {if $iterator->isEven()}class='even'{/if} >
 				<td>{$team->name}</td>
 				<td>{$team->contact_phone}</td>
-				<td>
+				<td>{$team->inserted|date:'j. n. Y H:i:s'}</td>
+				<td n:if="$members2 !== 'none'">
+					{var $memberCount = 0}
 					{if isSet($members[$team->id_team])}
 						<table>
 						{foreach $members[$team->id_team] as $member}
 								{continueIf empty($member->name)}
-								<tr>
-									<td>{$member->name}</td>
-									<td>{$member->age}</td>
-									<td>{$member->school}</td>
-									<td>{$member->email}</td>
-								</tr>
+								{var $memberCount += 1}
+								{if $members2 === 'summary'}
+									{$member->name}{if !$iterator->isLast()}, {/if}
+								{else}
+									<tr>
+										<td>{$member->name}</td>
+										<td>{$member->age}</td>
+										<td>{$member->school}</td>
+										<td>{$member->email}</td>
+									</tr>
+								{/if}
 						{/foreach}	
 						</table>
 					{/if}
 				</td>
+				<td n:if="$members2 !== 'none'">{$memberCount}</td>
 			</tr>
 			{last}</table>{/last}
 		{/foreach}

@@ -51,7 +51,7 @@
 
 	<hr class="cleaner" />
 
-	{if !empty($subpath) && $user->isInRole(Intersob\Models\User::ADMIN)}
+	{if !empty($subpath) && $user->isInRole(Intersob\Models\Admin::ADMIN)}
 		{control addForm}
 		{control uploadForm}
 	{/if}

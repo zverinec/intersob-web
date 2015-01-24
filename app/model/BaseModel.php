@@ -1,15 +1,18 @@
 <?php
 namespace Intersob\Models;
+use InvalidArgumentException;
 use Nette;
+use Nette\Database\Context;
+use Nette\Database\Table\Selection;
 
 abstract class BaseModel extends Nette\Object {
 	/** @var string */
 	protected $name;
 	
-	/** @var Nette\Database\Connection */
+	/** @var Context */
 	protected $connection;
 
-	public function __construct(Nette\Database\Connection $connection) {
+	public function __construct(Context $connection) {
 		$this->connection = $connection;
 	}
 	
@@ -21,12 +24,12 @@ abstract class BaseModel extends Nette\Object {
 		if(empty($key)) {
 			throw new InvalidArgumentException('Empty key');
 		}
-		return $this->getTableSelection()->find($key)->fetch();
+		return $this->getTableSelection()->get($key);
 	}
 	
 	/**
 	 * Returns complete table
-	 * @return Nette\Database\Table\Selection
+	 * @return Selection
 	 */
 	public function findAll() {
 		return $this->getTableSelection();
@@ -70,11 +73,12 @@ abstract class BaseModel extends Nette\Object {
 		$this->connection->beginTransaction();
 		$table = $this->getTableSelection();
 		try {
-			$oldRow = $table->find($key)->fetch();
+			$oldRow = $table->get($key);
 			if($preClosure !== NULL && is_callable($preClosure)) {
 				$preClosure($this, $oldRow);
 			}
-			$oldRow->update($data);
+			$table->wherePrimary($key)->update($data);
+			$oldRow = $table->get($key);
 			if($postClosure !== NULL && is_callable($postClosure)) {
 				$postClosure($this, $oldRow);
 			}
@@ -101,11 +105,11 @@ abstract class BaseModel extends Nette\Object {
 		$this->connection->beginTransaction();
 		$table = $this->getTableSelection();
 		try {
-			$oldRow = $table->find($key)->fetch();
+			$oldRow = $table->get($key);
 			if($preClosure !== NULL && is_callable($preClosure)) {
 				$preClosure($this, $oldRow);
 			}
-			$return = $oldRow->delete();
+			$return = $table->wherePrimary($key)->delete();
 			if($postClosure !== NULL && is_callable($postClosure)) {
 				$postClosure($this, $oldRow);
 			}
@@ -142,7 +146,7 @@ abstract class BaseModel extends Nette\Object {
 	
 	/**
 	 * Return table selection for this table
-	 * @return \Nette\Database\Table\Selection
+	 * @return Selection
 	 */
 	public function getTableSelection() {
 		return $this->connection->table($this->getTableName());
@@ -150,7 +154,7 @@ abstract class BaseModel extends Nette\Object {
 	
 	/**
 	 * Fallback method for obtainting connection
-	 * @return \Nette\Database\Connection
+	 * @return Context
 	 */
 	public function getConnection() {
 		return $this->connection;

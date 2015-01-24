@@ -10,7 +10,7 @@ parameters:
 	database:
 		driver: mysql
 		host: localhost
-		database: intersob-web
+		database: intersob
 		username: root
 		password:
 	uploads:
@@ -35,13 +35,11 @@ nette:
 
 services:
 	database: @nette.database.default
-	authenticator: Intersob\Models\User(@database,%security.salt%)
+	authenticator: Intersob\Models\MultiAuthenticator(@team, @admin, %security.salt%)
+	admin: Intersob\Models\Admin
 	routerFactory: RouterFactory
 	router: @routerFactory::createRouter
-
-factories:
-	team: Intersob\Models\Team(@database,%security.salt%)
+	team: Intersob\Models\Team
 	teamMember: Intersob\Models\TeamMember
 	page: Intersob\Models\Page
 	year: Intersob\Models\Year
-	

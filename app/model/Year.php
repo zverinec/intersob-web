@@ -1,9 +1,7 @@
 <?php
 namespace Intersob\Models;
 
-/**
- * Users authenticator.
- */
+
 class Year extends BaseModel {
 	public function findByYear($year) {
 		return $this->findAll()->where('YEAR(date) = ?', $year)->fetch();

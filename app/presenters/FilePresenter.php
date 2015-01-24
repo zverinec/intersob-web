@@ -1,6 +1,8 @@
 <?php
 
 use Nette\Application\UI;
+use Nette\Utils\Finder;
+use Nette\Utils\Strings;
 
 class FilePresenter extends BasePresenter {
 
@@ -22,7 +24,7 @@ class FilePresenter extends BasePresenter {
 		} else {
 			$path = str_replace('..', '', $subpath);
 			$path = __DIR__ . '/../../public/' .$path;
-			$files = iterator_to_array(\Nette\Utils\Finder::find('*')->exclude('.*')->in($path));
+			$files = iterator_to_array(Finder::find('*')->exclude('.*')->in($path));
 		}
 		$this->template->files = $files;
 		$this->template->subpath = $subpath;
@@ -47,7 +49,7 @@ class FilePresenter extends BasePresenter {
 			$form->addError('Jméno adresáře nemůže být prázdné');
 			return;
 		}
-		$path = __DIR__ . '/../../public/' .$subpath . '/' . \Nette\Utils\Strings::webalize($values['new']);
+		$path = __DIR__ . '/../../public/' .$subpath . '/' . Strings::webalize($values['new']);
 		mkdir($path);
 		$this->flashMessage('Nový adresář byl úspěšně vytvořen.', 'success').
 		$this->redirect('this');
@@ -102,6 +104,6 @@ class FilePresenter extends BasePresenter {
 	}
 
 	public function extractUntilLastSlash($value) {
-		return \Nette\Utils\Strings::substring($value, 0, mb_strrpos($value, '/'));
+		return Strings::substring($value, 0, mb_strrpos($value, '/'));
 	}
 }

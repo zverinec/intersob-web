@@ -1,0 +1,32 @@
+{var $icon = "about"}
+{var $title = "Správa administrátorů"}
+{block #content}
+	<h1>Správa administrátorů</h1>
+		
+	{include ../flashes.latte}
+
+	<p><a href="{plink Admin:add}">Přidat</a></p>
+
+	<table class="files">
+		<tr>
+			<th>ID</th>
+			<th>Nickname</th>
+			<th>Možnosti</th>
+		</tr>
+		<tr n:foreach="$admins as $admin">
+			<td>
+				{$admin->id_user}
+			</td>
+			<td>
+				{$admin->nickname}
+			</td>
+			<td>
+				<a href="{plink Admin:edit, $admin->id_user}">Upravit</a>
+				<a href="{plink Admin:delete, $admin->id_user}">Smazat</a>
+			</td>
+		</tr>
+	</table>
+
+	<hr class="cleaner" />
+
+{/block}

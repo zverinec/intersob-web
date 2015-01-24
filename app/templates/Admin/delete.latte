@@ -1,0 +1,9 @@
+{var $title = "Smazat uživatele: ". $data->nickname}
+
+{block #content}
+
+	<h1>Smazat uživatele: {$data->nickname}</h1>
+	<p>Opravdu chcete smazat uživatele s přezdívkou {$data->nickname}?</p>
+	{control deleteForm}
+
+{/block}

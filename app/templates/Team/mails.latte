@@ -1,0 +1,14 @@
+{var $title = "Seznam mailů"}
+{block #content}
+	<h1>Seznam mailů</h1>
+
+	{control mails}
+
+	{if isset($mails)}
+		<p>Počet: {count($mails)}</p>
+		{foreach $mails as $item}
+			{$item->email}{if !$iterator->isLast()},<br /> {/if}
+		{/foreach}
+
+	{/if}
+{/block}

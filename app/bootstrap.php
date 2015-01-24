@@ -4,7 +4,7 @@
 require __DIR__ . '/../libs/autoload.php';
 
 
-$configurator = new Nette\Config\Configurator;
+$configurator = new \Nette\Configurator();
 
 // Enable Nette Debugger for error visualisation & logging
 //$configurator->setDebugMode(TRUE);
@@ -18,13 +18,13 @@ $configurator->createRobotLoader()
 	->register();
 
 // Create Dependency Injection container from config.neon file
-// First: load production config
-$configurator->addConfig(__DIR__ . '/config/config.production.neon', $configurator::NONE);
+// First: load config
+$configurator->addConfig(__DIR__ . '/config/config.neon');
 // Second:  overwrite it by development configuration if we are in it
 if($configurator->isDebugMode()) {
-	$configurator->addConfig(__DIR__ . '/config/config.development.neon', $configurator::NONE);	
+	$configurator->addConfig(__DIR__ . '/config/config.development.neon');
 }
 // Third: overwrite by local changes
-$configurator->addConfig(__DIR__ . '/config/config.local.neon', $configurator::NONE);
+$configurator->addConfig(__DIR__ . '/config/config.local.neon');
 $container = $configurator->createContainer();
 return $container;

@@ -3,6 +3,8 @@
 namespace Intersob\Models;
 
 use Nette;
+use Nette\Utils\DateTime;
+use Nette\Utils\Validators;
 
 class Helpers {
 
@@ -13,7 +15,7 @@ class Helpers {
 	
 	private static function validateDateFromString($date) {
 		try {
-			$check = new \Nette\DateTime($date);
+			$check = new DateTime($date);
 			$date = explode('-', $date);
 			if (count($date) != 3) {
 				return false;
@@ -27,7 +29,7 @@ class Helpers {
 	public static function validateDateTime(Nette\Forms\IControl $control) {
 		$date = $control->getValue();
 		try {
-			$check = new \Nette\DateTime($date);
+			$check = new DateTime($date);
 			$date = explode(' ', $date);
 			if (count($date) != 2) {
 				return false;
@@ -39,7 +41,7 @@ class Helpers {
 			if(count($time) != 3) {
 				return false;
 			}
-			if(!\Nette\Utils\Validators::isNumericInt($time[0]) || !\Nette\Utils\Validators::isNumericInt($time[1]) || !\Nette\Utils\Validators::isNumericInt($time[2])) {
+			if(!Validators::isNumericInt($time[0]) || !Validators::isNumericInt($time[1]) || !Validators::isNumericInt($time[2])) {
 				return false;
 			}
 			if($time[0] < 0 || $time[0] > 23) {

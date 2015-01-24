@@ -8,15 +8,14 @@
 	{include ../flashes.latte}
 	
 	{if isSet($registrationOpen) && !$registrationOpen}
-		<div class='flash info'>Údaje již nelze upravit, protože skončila registrace.</div>
+		<div class='flash info'>Údaje již nelze upravit, protože vypršel deadline pro jejich úpravu.</div>
 	{/if}
 	
 	<h2>Změna údajů týmu</h2>
-	{widget settingsForm}
+	<p>Pouze do {$event->info_embargo|date:'j. n. Y H:i:s'}</p>
+	{control settingsForm}
 		
 	<h2>Změna hesla</h2>
-	{widget changePassword}
-	
-	
-	
+	{control changePassword}
+
 {/block}

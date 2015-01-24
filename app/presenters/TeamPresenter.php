@@ -1,28 +1,54 @@
 <?php
 
+use Intersob\Models\Admin;
+use Intersob\Models\MultiAuthenticator;
+use Intersob\Models\Team;
+use Intersob\Models\TeamMember;
 use Nette\Application\UI;
+use Nette\Forms\Form;
+use Nette\Security\AuthenticationException;
+use Nette\Utils\DateTime;
 
 class TeamPresenter extends BasePresenter {
+
+	/** @var Team */
+	private $team;
+	/** @var TeamMember */
+	private $teamMember;
+
+	public function injectTeam(Team $team, TeamMember $teamMember) {
+		$this->team = $team;
+		$this->teamMember = $teamMember;
+	}
 
 	public function beforeRender() {
 		parent::beforeRender();
 		$this->template->icon = 'teams';
 	}
 
-	public function actionDefault($year) {
+	public function actionDefault($year, $order = NULL, $members2 = NULL) {
 		
 		$event = $this->prepareEvent($year);
-		$model = $this->context->createTeam();
-		$this->template->teams = $model->findAll()->where("id_year = ?", $event->id_year);
-		
-		$model2 = $this->context->createTeamMember();
-		$this->template->members = $model2->findFromYear($event->id_year);
+		$teams = $this->team->findAll()->where("id_year = ?", $event->id_year);
+		$members = $this->teamMember->findFromYear($event->id_year);
+
+		if ($this->user->isInRole(Admin::ADMIN)) {
+			if ($order === 'inserted') {
+				$teams = $teams->order('inserted ASC');
+			} else {
+				$teams = $teams->order('name ASC');
+			}
+		}
+
+		$this->template->teams = $teams;
+		$this->template->members = $members;
+
 	}
 	
 	public function actionRegistration($year) {
 		$this->ensureNonTeamRight();
 		$event = $this->prepareEvent($year);
-		$current = new \Nette\DateTime;
+		$current = new DateTime;
 		if($current > $event->reg_open && $current < $event->reg_closed) {
 			$this->template->registrationOpen = true;
 		}
@@ -34,10 +60,10 @@ class TeamPresenter extends BasePresenter {
 		$form->onSuccess[] = $this->regFormSent;
 		return $form;
 	}
-	public function regFormSent(\Nette\Forms\Form $form) {
+	public function regFormSent(Form $form) {
 		// Check if the registration is open
-		$event = $this->prepareEvent($this->getParam('year'));
-		$current = new \Nette\DateTime;
+		$event = $this->prepareEvent($this->getParameter('year'));
+		$current = new DateTime;
 		if(! ($current > $event->reg_open && $current < $event->reg_closed)) {
 			$this->flashMessage('Registrace neprobíhá, nelze provést registraci.', 'error');
 			$this->redirect('registration', $this->getParam('year'));
@@ -53,14 +79,14 @@ class TeamPresenter extends BasePresenter {
 		$m4 = $values['m4'];
 		unset($values['m4']);
 		unset($values['password2']);
-		
-		$event = $this->prepareEvent($this->getparam('year'));
+
+		$event = $this->prepareEvent($this->getparameter('year'));
+		$values['inserted'] = new DateTime();
 		$values['id_year'] = $event->id_year;
 		$values['password'] = $this->user->getAuthenticator()->calculateHash($values['password']);
-		
-		$model = $this->context->createTeam();
+
 		try {
-			$row = $model->insert($values);
+			$row = $this->team->insert($values);
 		} catch(\Exception $ex)  {
 			$form->addError('Tým s tímto názvem je již zaregistrován. Zvolte jiný název. Pokud jste zapomněli heslo, napište nám.');
 			return;
@@ -75,14 +101,14 @@ class TeamPresenter extends BasePresenter {
 		$m3['id_team'] = $row->id_team;
 		$m4['id_team'] = $row->id_team;
 		
-		$model2 = $this->context->createTeamMember();
+		$model2 = $this->teamMember;
 		$model2->insert($m1);
 		$model2->insert($m2);
 		$model2->insert($m3);
 		$model2->insert($m4);
 		
 		$this->flashMessage('Váš tým byl úspěšně zaregistrován. Těšíme se.', 'success');
-		$this->redirect('login', $this->getParam('year'));
+		$this->redirect('login', $this->getParameter('year'));
 	}
 	
 	private function sharedTeamForm($name, $update = false) {
@@ -90,18 +116,18 @@ class TeamPresenter extends BasePresenter {
 		$form->addGroup('Obecné informace o týmu');
 		$form->addText('name','Název týmu:',40)
 				->setRequired('Vyplňte, prosím, jméno týmu.')
-				->addRule(\Nette\Forms\Form::MAX_LENGTH, "Maximální délka názvu týmu může být 255 znaků.", 255)
+				->addRule(Form::MAX_LENGTH, "Maximální délka názvu týmu může být 255 znaků.", 255)
 				->setOption('description','Musí být unikátní, používá se pro přihlašování.');
 		if(!$update) {
 			$form->addPassword('password', 'Heslo:')
 				->setRequired('Vyplňte, prosím, heslo pro přihlášení.');
 			$form->addPassword('password2', 'Heslo znovu:')
 				->setRequired('Vyplňte, prosím, heslo pro kontrolu shody.')
-					->addRule(\Nette\Forms\Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
+					->addRule(Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
 		}
 		
 		$form->addText('contact_phone','Kontaktní telefon:')
-				->addRule(\Nette\Forms\Form::MAX_LENGTH, 'Maximální délka kontaktního telefonu je 20 znaků.', 20)
+				->addRule(Form::MAX_LENGTH, 'Maximální délka kontaktního telefonu je 20 znaků.', 20)
 				->setRequired('Vyplňte, prosím, kontaktní telefon.')
 				->setOption('description','Telefon, který budete mít v průběhu hry u sebe.');
 		
@@ -119,23 +145,29 @@ class TeamPresenter extends BasePresenter {
 		$this->getTeamMemberInfo($m4, '4', 'čtvrtého');
 		
 		$form->setCurrentGroup();
+
+		$form->onError[] = $this->showErrorMessage;
 		
 		return $form;
 	}
-	
+
+
+	public function showErrorMessage(Form $form) {
+		$form->addError('Ve formuláři jsou některé pole nevyplněna nebo vyplněna chybně. Podrobnější popis naleznete níže.');
+	}
 	private function getTeamMemberInfo($container, $short, $long) {
 		$container->addText('name','Jméno a příjmení: ')
 				;//->setRequired('Vyplňte, prosím, jméno a příjmení '.$long.' člena.');
 		$container->addText('age','Věk:',4)
-				->addCondition(\Nette\Forms\Form::FILLED)
-				->addRule(\Nette\Forms\Form::NUMERIC, 'Věk '.$long.' člena musí být celé číslo.')
-				->addRule(\Nette\Forms\Form::RANGE, 'Věk '.$long.' člena musí být mezi 10 a 22.', array(10,22))
+				->addCondition(Form::FILLED)
+				->addRule(Form::NUMERIC, 'Věk '.$long.' člena musí být celé číslo.')
+				->addRule(Form::RANGE, 'Věk '.$long.' člena musí být mezi 10 a 22.', array(10,22))
 				;//->setRequired('Vyplňte, prosím, věk '.$long.' člena.');
 		$container->addText('school', 'Škola:')
 			;//->setRequired('Vyplňte, prosím, školu '.$long.' člena.');
 		$container->addText('email', 'E-mailová adresa:')
-			->addCondition(\Nette\Forms\Form::FILLED)
-			->addRule(\Nette\Forms\Form::EMAIL, 'Vyplňte, prosím, e-mail '.$long.' člena ve správném tvaru e-mailové adresy.')
+			->addCondition(Form::FILLED)
+			->addRule(Form::EMAIL, 'Vyplňte, prosím, e-mail '.$long.' člena ve správném tvaru e-mailové adresy.')
 			;//->setRequired('Vyplňte, prosím, e-mail '.$long.' člena.');
 	}
 	
@@ -161,12 +193,14 @@ class TeamPresenter extends BasePresenter {
 		$values = $form->getValues();
 
 		try {
-			$model = $this->context->createTeam();
-			$event = $this->prepareEvent($this->getParam('year'));
-			$model->setYear($event->id_year);
-			$this->getUser()->setAuthenticator($model);
+			$event = $this->prepareEvent($this->getParameter('year'));
+
+			$authenticator = $this->user->getAuthenticator();
+			$authenticator->setType(MultiAuthenticator::TEAM);
+			$authenticator->setYear($event->id_year);
+
 			$this->getUser()->login($values->nickname, $values->password);
-		} catch (Nette\Security\AuthenticationException $e) {
+		} catch (AuthenticationException $e) {
 			$form->addError($e->getMessage());
 			return;
 		}
@@ -184,12 +218,10 @@ class TeamPresenter extends BasePresenter {
 	
 	public function actionSettings($year) {
 		$this->ensureTeamRight();
-		
-		$model = $this->context->createTeam();
-		$values = $model->find($this->user->getId())->toArray();
-		
-		$model2 = $this->context->createTeamMember();
-		$members = $model2->findFromTeam($this->user->getId());
+
+		$values = $this->team->find($this->user->getId())->toArray();
+
+		$members = $this->teamMember->findFromTeam($this->user->getId());
 		$temp = array();
 		$i = 1;
 		foreach($members as $member) {
@@ -201,8 +233,8 @@ class TeamPresenter extends BasePresenter {
 		$this->getComponent('settingsForm')->setDefaults($merged);
 		
 		$event = $this->prepareEvent($year);
-		$current = new \Nette\DateTime;
-		if(! ($current > $event->reg_open && $current < $event->reg_closed)) {
+		$current = new DateTime;
+		if(! ($current > $event->reg_open && $current < $event->info_embargo)) {
 			$this->template->registrationOpen = false;
 		}
 	}
@@ -215,13 +247,13 @@ class TeamPresenter extends BasePresenter {
 		return $form;
 	}
 	
-	public function settingsFormSent(\Nette\Forms\Form $form) {
+	public function settingsFormSent(Form $form) {
 		// Check if the registration is open
-		$event = $this->prepareEvent($this->getParam('year'));
-		$current = new \Nette\DateTime;
-		if(! ($current > $event->reg_open && $current < $event->reg_closed)) {
-			$this->flashMessage('Registrace neprobíhá, nelze provést úpravu údajů.', 'error');
-			$this->redirect('settings', $this->getParam('year'));
+		$event = $this->prepareEvent($this->getParameter('year'));
+		$current = new DateTime;
+		if(! ($current > $event->reg_open && $current < $event->info_embargo)) {
+			$this->flashMessage('Již nelze provést změnu údajů. Sdělte nám, prosím, změny při registraci na startu. Díky.', 'error');
+			$this->redirect('settings', $this->getParameter('year'));
 			return;
 		}
 		$values = $form->getValues();
@@ -233,10 +265,9 @@ class TeamPresenter extends BasePresenter {
 		unset($values['m3']);
 		$m4 = $values['m4'];
 		unset($values['m4']);
-		
-		$model = $this->context->createTeam();
+
 		try {
-			$row = $model->update($this->user->getId(), $values);
+			$row = $this->team->update($this->user->getId(), $values);
 		} catch(\Exception $ex)  {
 			$form->addError('Tým s tímto názvem je již zaregistrován. Zvolte jiný název.');
 			return;
@@ -245,17 +276,16 @@ class TeamPresenter extends BasePresenter {
 			$form->addError('Nepodařilo se upravit údaje týmu. Prosím, kontaktujte nás.');
 			return;
 		}
-		
-		$model2 = $this->context->createTeamMember();
-		$members = $model2->findFromTeam($this->user->getId());
+
+		$members = $this->teamMember->findFromTeam($this->user->getId());
 		$i = 1;
 		foreach($members as $member) {
 			$temp = 'm'.$i++;
-			$model2->update($member->id_team_member, $$temp);
+			$this->teamMember->update($member->id_team_member, $$temp);
 		}
 		
 		$this->flashMessage('Registrační údaje vašeho týmu byly úspěšně změněny.', 'success');
-		$this->redirect('settings', $this->getParam('year'));
+		$this->redirect('settings', $this->getParameter('year'));
 	}
 	
 	public function createComponentChangePassword($name) {
@@ -266,13 +296,13 @@ class TeamPresenter extends BasePresenter {
 				->setRequired('Vyplňte, prosím, nové heslo.');
 		$form->addPassword('password2', 'Nové heslo znovu:')
 			->setRequired('Vyplňte, prosím, heslo pro kontrolu shody.')
-			->addRule(\Nette\Forms\Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
+			->addRule(Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
 		$form->addSubmit('send', 'Změnit');
 		$form->onSuccess[] = $this->changePassword;
 		return $form;
 	}
 	
-	public function changePassword(\Nette\Forms\Form $form) {
+	public function changePassword(Form $form) {
 		$values = $form->getValues();
 		if($this->user->getAuthenticator()->calculateHash($values['old']) != $this->user->getIdentity()->password) {
 			$form->addError('Vámi zadané staré heslo neodpovídá skutečnému heslu.');
@@ -281,14 +311,44 @@ class TeamPresenter extends BasePresenter {
 		$values['password'] = $this->user->getAuthenticator()->calculateHash($values['password']);
 		unset($values['old']);
 		unset($values['password2']);
-		$model = $this->context->createTeam();
-		$model->update($this->user->getId(), $values);
+		$this->team->update($this->user->getId(), $values);
 		$this->flashMessage('Vaše heslo bylo úspěšně změněno.', 'success');
-		$this->redirect('settings', $this->getParam('year'));
+		$this->redirect('settings', $this->getParameter('year'));
 	}
 	
-	public function actionContacts($year) {
+	public function actionContacts($year, $order = NULL, $members2 = NULL) {
 		$this->ensureAdminRight();
-		$this->actionDefault($year);
+		$this->actionDefault($year, $order, $members2);
+
+		$this->template->order = $order;
+		$this->template->members2 = $members2;
+		$this->template->year = $year;
+	}
+
+	public function actionMails() {
+		$this->ensureAdminRight();
+	}
+
+	public function createComponentMails() {
+		$form = new UI\Form();
+		$form->addMultiSelect('include', 'Zahrnout ročníky', $this->year->findAll()->order('date DESC')->fetchPairs('id_year', 'name'), 5)
+			->setRequired();
+		$form->addMultiSelect('exclude', 'Vyjmout ročníky', $this->year->findAll()->order('date DESC')->fetchPairs('id_year', 'name'), 5);
+
+		$form->addSubmit('submitted', 'Vypsat');
+		$form->onSuccess[] = $this->mailsSubmitted;
+
+		return $form;
+	}
+
+	public function mailsSubmitted(UI\Form $form) {
+		$values = $form->getValues();
+		if (count($values['include']) == 0) {
+			$form->addError('Musíte vybrat alespoň jeden ročník.');
+			return;
+		}
+		$result = $this->teamMember->findMails($values['include'], $values['exclude']);
+		$this->template->mails = $result->fetchAll();
+
 	}
 }

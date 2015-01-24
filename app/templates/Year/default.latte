@@ -5,7 +5,7 @@
 	
 	<p>InterSoB má v Brně už celkem dlouhou tradici. Zde najdete stránky starších ročníků, včetne seznamu všech účastníků, fotek a výherců. Všem patří naše nikdyneutichající sláva a naše uznání.
 	
-	{if $user->isInRole(Intersob\Models\User::ADMIN)}
+	{if $user->isInRole(Intersob\Models\Admin::ADMIN)}
 		<div class="admin-options"><a href="{link create}" class="button-add">Přidat ročník</a></div>
 	{/if}
 		
@@ -15,12 +15,12 @@
 		<h2><a href="{plink Page:default, $year->date->format("Y")}">{$year->name}</a></h2>
 		<p>{$year->description}</p>
 			
-		{if $user->isInRole(Intersob\Models\User::ADMIN)}
+		{if $user->isInRole(Intersob\Models\Admin::ADMIN)}
 			<div class="admin-options">
 				<a href="{plink Page:list, $year->date->format("Y")}" class="button-list">Seznam stránek</a>
 				<a href="{link update, $year->id_year}" class="button-edit">Upravit</a>
 				<a href="{link delete, $year->id_year}" class="button-delete">Smazat</a>
-				<span><a href="{plink Team:contacts, $year->date->format('Y')}">Seznam účastníků a kontaktní údaje</a></span>
+				<span><a href="{plink Team:contacts, $year->date->format('Y')}">Seznam účastníků</a></span>
 				<hr class="cleaner" />
 			</div>
 		{/if}
