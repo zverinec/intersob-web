@@ -35,6 +35,8 @@ div.footer-info { float: left; min-width: 250px; color: rgb(242,242,242); paddin
 div.footer-logos { float: right; padding: 15px 5% 5px 5%; min-width: 250px; text-align: right; }
 .footer-logo { float:right; display:block; height: 50px; width: 50px; border: none; margin: 0 0 10px 10px; }
 .footer-logo:hover { background-position: 50px 0; }
+.footer-logo.wide { width: 75px; }
+.footer-logo.wide:hover { background-position: 75px 0; }
 div.icon { position: absolute; top: -65px; right: 5%; }
 
 /* main */
@@ -106,6 +108,7 @@ img.sob { width: 200px; height: 165px; border: none; float: right; }
 .keks-logo { background-image:url('../images/logo-keks.png'); }
 .ksi-logo { background-image:url('../images/logo-ksi.png'); }
 .interlos-logo { background-image:url('../images/logo-los.png'); }
+.mam-logo { background-image:url('../images/logo-mam.png'); }
 
 /* content specific styles */
 ul.snatches li { font-style: italic; margin-bottom: 6px; }
