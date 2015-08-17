@@ -76,6 +76,11 @@ $(function(){
 							{/foreach}
 						</select>
 				</div>
+				{if isset($isAdmin) && $isAdmin}
+					<div class="admin-link">
+						<a href="{plink Admin:}">Administrace</a>
+					</div>
+				{/if}
 				<div class="header-menu">
 					{block #menu1}
 						{!$menu1|texy}

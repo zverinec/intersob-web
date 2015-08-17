@@ -18,6 +18,7 @@ div.header { min-height: 110px; width: 100%; min-width: 300px; background-color:
 div.header-logo { position: relative; float: left; padding: 20px 15px 25px 5%; }
 img.header-logo { height: 65px; width: 286px; border: none; }
 div.volume { position: relative; float: left; padding-left: 0px; padding-top: 55px; font-weight: bold; font-size: 1em; }
+div.admin-link { position: relative; float: left; padding-left: 0px; padding-top: 65px; padding-left: 20px; font-weight: bold; font-size: 1em; }
 
 div.header-menu { position: relative; float: right; min-width: 250px; min-height: 80px; padding: 20px 5% 10px 15px; color: rgb(242,242,242); vertical-align: middle; }
 ul.menu1 { float: right; margin: 0; padding: 0; list-style-type: none; text-align: left; }

@@ -63,6 +63,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	
 	protected function beforeRender() {
 		parent::beforeRender();
+		if($this->user->isInRole(Admin::ADMIN)) {
+			$this->template->isAdmin = TRUE;
+		}
 		if(empty($this->template->event)) {
 			$year = $this->getParameter('year');
 			if(empty($year)) {
