@@ -1,6 +1,7 @@
 <?php
 
 use Nette\Application\UI;
+use Nette\InvalidStateException;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 
@@ -28,6 +29,7 @@ class FilePresenter extends BasePresenter {
 		}
 		$this->template->files = $files;
 		$this->template->subpath = $subpath;
+		$this->template->sizeLimit = $this->maxSizeOfFileUpload();
 	}
 
 	public function createComponentAddForm($name) {
@@ -50,9 +52,13 @@ class FilePresenter extends BasePresenter {
 			return;
 		}
 		$path = __DIR__ . '/../../public/' .$subpath . '/' . Strings::webalize($values['new']);
-		mkdir($path);
-		$this->flashMessage('Nový adresář byl úspěšně vytvořen.', 'success').
-		$this->redirect('this');
+		if(!mkdir($path, 0777)) {
+			$this->flashMessage('Vytvoření nového adresáře se nezdařilo. Kontaktujte správce.', 'error').
+			$this->redirect('this');
+		} else {
+			$this->flashMessage('Nový adresář byl úspěšně vytvořen.', 'success') .
+			$this->redirect('this');
+		}
 	}
 
 	public function actionDelete($file) {
@@ -61,11 +67,15 @@ class FilePresenter extends BasePresenter {
 
 		if(file_exists($path)) {
 			if(is_dir($path)) {
-				rmdir($path);
+				$result = rmdir($path);
 			} else {
-				unlink($path);
+				$result = unlink($path);
 			}
-			$this->flashMessage('Položka byla úspěšně smazána.', 'success');
+			if ($result) {
+				$this->flashMessage('Položka byla úspěšně smazána.', 'success');
+			} else {
+				$this->flashMessage('Položku se nepodařilo smazat. Kontaktujte správce.', 'error');
+			}
 		} else {
 			$this->flashMessage('Položka neexistuje.','error');
 		}
@@ -93,11 +103,22 @@ class FilePresenter extends BasePresenter {
 			return;
 		}
 		$files = array($values['file1'],$values['file2'],$values['file3'],$values['file4'],$values['file5']);
+		//dump($files);
+		$i = 1;
 		foreach($files as $file) {
 			if($file->isOk()) {
 				$path = __DIR__ . '/../../public/' .$subpath . '/' . $file->getName();
-				$file->move($path);
+				try {
+					$file->move($path);
+				} catch (InvalidStateException $ex) {
+					$form->addError('Přesun souboru č. ' . $i . ' do požadované složky selhal. Pravděpodobně došlo k problému s oprávněními, kontaktujte správce.');
+				}
 			}
+			if ($file->getTemporaryFile() === '') {
+				$form->addError('Upload souboru č. ' . $i . ' selhal. Pravděpodobně překročena maximální velikost souboru či délka běhu skriptu.');
+				return;
+			}
+			$i++;
 		}
 		$this->flashMessage('Upload byl úspěšně dokončen.','success');
 		$this->redirect('this');
@@ -105,5 +126,34 @@ class FilePresenter extends BasePresenter {
 
 	public function extractUntilLastSlash($value) {
 		return Strings::substring($value, 0, mb_strrpos($value, '/'));
+	}
+
+	private function maxSizeOfFileUpload() {
+		static $max_size = -1;
+
+		if ($max_size < 0) {
+			// Start with post_max_size.
+			$max_size = $this->parseSize(ini_get('post_max_size'));
+
+			// If upload_max_size is less, then reduce. Except if upload_max_size is
+			// zero, which indicates no limit.
+			$upload_max = $this->parseSize(ini_get('upload_max_filesize'));
+			if ($upload_max > 0 && $upload_max < $max_size) {
+				$max_size = $upload_max;
+			}
+		}
+		return $max_size;
+	}
+
+	private function parseSize($size) {
+		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size); // Remove the non-unit characters from the size.
+		$size = preg_replace('/[^0-9\.]/', '', $size); // Remove the non-numeric characters from the size.
+		if ($unit) {
+			// Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+			return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+		}
+		else {
+			return round($size);
+		}
 	}
 }
