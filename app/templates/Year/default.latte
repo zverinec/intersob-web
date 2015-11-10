@@ -13,7 +13,7 @@
 	
 	{foreach $years as $year}
 		<h2><a href="{plink Page:default, $year->date->format("Y")}">{$year->name}</a></h2>
-		<p>{$year->description}</p>
+		{!$year->description|texy}
 			
 		{if $user->isInRole(Intersob\Models\Admin::ADMIN)}
 			<div class="admin-options">
