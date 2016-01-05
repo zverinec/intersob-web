@@ -9,8 +9,9 @@
 	{if count($teams) > 0}
 		{foreach $teams as $team}
 			{first}<table>{/first}
-			{first 20}
+			{first}
 				<tr>
+					<th>Pořadí</th>
 					<th>Název týmu</th>
 					<th>Kontakt</th>
 					<th>Registrace</th>
@@ -19,6 +20,7 @@
 				</tr>
 			{/first}
 			<tr {if $iterator->isEven()}class='even'{/if} >
+				<td>{$iterator->getCounter()}.</td>
 				<td>{$team->name}</td>
 				<td>{$team->contact_phone}</td>
 				<td>{$team->inserted|date:'j. n. Y H:i:s'}</td>
