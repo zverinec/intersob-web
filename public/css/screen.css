@@ -1,4 +1,4 @@
-/* InterSoB stylesheet 
+/* InterSoB stylesheet
 used colors:
     white: rgb(242,242,242)
     black: rgb(42,42,42)
@@ -106,7 +106,7 @@ img.sob { width: 200px; height: 165px; border: none; float: right; }
 .fi-logo { background-image:url('../images/logo-fi.png'); }
 .prf-logo { background-image:url('../images/logo-prf.png'); }
 .brkos-logo { background-image:url('../images/logo-brkos.png'); }
-.keks-logo { background-image:url('../images/logo-keks.png'); }
+.ibis-logo { background-image:url('../images/logo-ibis.png'); }
 .ksi-logo { background-image:url('../images/logo-ksi.png'); }
 .vibuch-logo { background-image:url('../images/logo-vibuch.png'); }
 .interlos-logo { background-image:url('../images/logo-los.png'); }
