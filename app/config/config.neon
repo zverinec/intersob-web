@@ -37,8 +37,8 @@ services:
 	database: @nette.database.default
 	authenticator: Intersob\Models\MultiAuthenticator(@team, @admin, %security.salt%)
 	admin: Intersob\Models\Admin
-	routerFactory: RouterFactory
-	router: @routerFactory::createRouter
+	#routerFactory: RouterFactory
+	#router: @routerFactory::createRouter
 	team: Intersob\Models\Team
 	teamMember: Intersob\Models\TeamMember
 	page: Intersob\Models\Page
