@@ -1,0 +1,5 @@
+RewriteEngine On
+#RewriteRule ^$ /public [L]
+#RewriteBase /public
+RewriteRule ^intersob/(.*)$ /$1 [R=301,L] 
+RewriteRule ^(.*)$ /public/$1
