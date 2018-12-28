@@ -1,8 +1,6 @@
 log/*
 temp/*
 libs/*
-public/files/*
-!public/files/.htaccess
 
 .DS_Store
 !.gitignore
