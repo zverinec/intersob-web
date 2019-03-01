@@ -985,16 +985,16 @@
         },
         {
             "name": "nette/tokenizer",
-            "version": "v2.2.3",
+            "version": "v2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tokenizer.git",
-                "reference": "0fec1255bd2d062229e81cad3bfba806a8ea6096"
+                "reference": "ac9978efdb8add01ad9497b26bb90181cb0a4c1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tokenizer/zipball/0fec1255bd2d062229e81cad3bfba806a8ea6096",
-                "reference": "0fec1255bd2d062229e81cad3bfba806a8ea6096",
+                "url": "https://api.github.com/repos/nette/tokenizer/zipball/ac9978efdb8add01ad9497b26bb90181cb0a4c1e",
+                "reference": "ac9978efdb8add01ad9497b26bb90181cb0a4c1e",
                 "shasum": ""
             },
             "require": {
@@ -1031,7 +1031,7 @@
             ],
             "description": "Nette Tokenizer",
             "homepage": "https://nette.org",
-            "time": "2016-04-21 13:06:32"
+            "time": "2017-07-11 19:30:23"
         },
         {
             "name": "nette/utils",
@@ -1089,16 +1089,16 @@
         },
         {
             "name": "texy/texy",
-            "version": "v2.9.0",
+            "version": "v2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/texy.git",
-                "reference": "8ddd8e3ec6bb943e39a40d2aa353766468e0c0c0"
+                "reference": "1792af01d09307c6480d38dbbacaa3b67c40bc99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/texy/zipball/8ddd8e3ec6bb943e39a40d2aa353766468e0c0c0",
-                "reference": "8ddd8e3ec6bb943e39a40d2aa353766468e0c0c0",
+                "url": "https://api.github.com/repos/dg/texy/zipball/1792af01d09307c6480d38dbbacaa3b67c40bc99",
+                "reference": "1792af01d09307c6480d38dbbacaa3b67c40bc99",
                 "shasum": ""
             },
             "require": {
@@ -1108,7 +1108,8 @@
                 "dg/texy": "*"
             },
             "require-dev": {
-                "nette/tester": "~1.5"
+                "nette/tester": "~1.5",
+                "tracy/tracy": "^2.4"
             },
             "type": "library",
             "autoload": {
@@ -1144,7 +1145,7 @@
                 "wiki",
                 "xhtml"
             ],
-            "time": "2016-06-08 16:16:47"
+            "time": "2018-06-22 09:50:22"
         },
         {
             "name": "tracy/tracy",
@@ -1201,7 +1202,117 @@
             "time": "2015-12-03 00:19:21"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "jandrabek/nette-mailpanel",
+            "version": "3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/repli2dev/nette-mailpanel.git",
+                "reference": "42e4a3b05d657ebb81f5b9353a1e9fe082fd76ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/repli2dev/nette-mailpanel/zipball/42e4a3b05d657ebb81f5b9353a1e9fe082fd76ee",
+                "reference": "42e4a3b05d657ebb81f5b9353a1e9fe082fd76ee",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": "2.0.* | 2.1.* | 2.2.*",
+                "php": ">=5.3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JanDrabek\\MailPanel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Drábek",
+                    "homepage": "http://www.jandrabek.cz"
+                }
+            ],
+            "description": "MailPanel is extension for Nette Framework which captures sent e-mails in development mode and shows them from debugger bar.",
+            "homepage": "http://addons.nette.org/cs/mailpanel",
+            "keywords": [
+                "debugging",
+                "framework",
+                "mail",
+                "mail panel",
+                "mailing",
+                "mailpanel",
+                "sessionmailer"
+            ],
+            "time": "2014-07-21 11:25:28"
+        },
+        {
+            "name": "nette/tester",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tester.git",
+                "reference": "3f273cf0ef82939e5ed07baaa5cf21ea6f657fc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tester/zipball/3f273cf0ef82939e5ed07baaa5cf21ea6f657fc2",
+                "reference": "3f273cf0ef82939e5ed07baaa5cf21ea6f657fc2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "bin": [
+                "src/tester"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "Nette Tester: enjoyable unit testing in PHP with code coverage reporter. 🍏🍏🍎🍏",
+            "homepage": "https://tester.nette.org",
+            "keywords": [
+                "Xdebug",
+                "assertions",
+                "clover",
+                "code coverage",
+                "nette",
+                "phpdbg",
+                "phpunit",
+                "testing",
+                "unit"
+            ],
+            "time": "2018-06-07 11:24:40"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
