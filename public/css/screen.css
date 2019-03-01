@@ -111,6 +111,7 @@ img.sob { width: 200px; height: 165px; border: none; float: right; }
 .vibuch-logo { background-image:url('../images/logo-vibuch.png'); }
 .interlos-logo { background-image:url('../images/logo-los.png'); }
 .mam-logo { background-image:url('../images/logo-mam.png'); }
+.udif-logo { background-image:url('../images/logo-udif.png'); }
 
 /* content specific styles */
 ul.snatches li { font-style: italic; margin-bottom: 6px; }
