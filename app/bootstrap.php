@@ -38,6 +38,6 @@ if ($httpRequest->isSecured()) {
 }
 
 // Setup router
-$container->router[] = RouterFactory::createRouter();
+$container->addService('router', RouterFactory::createRouter());
 
 return $container;
