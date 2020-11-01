@@ -14,12 +14,15 @@
 		}
 	],
 	"config": {
-		"vendor-dir": "libs"
+		"vendor-dir": "libs",
+		"platform": {
+			"php": "7.0.33"
+		}
 	},
 	"require": {
 		"php": ">= 5.3.0",
 		"nette/nette": "~2.4",
-		"texy/texy": "~2.6",
+		"texy/texy": "~2.9",
 		"nextras/mail-panel": "2.4"
 	},
     "require-dev": {
