@@ -20,25 +20,20 @@ php:
 	date.timezone: Europe/Prague
 	# zlib.output_compression: yes
 
-nette:
-	application:
-		errorPresenter: Error
+application:
+	errorPresenter: Error
 
-	database:
-		dsn: '%database.driver%:host=%database.host%;dbname=%database.database%'
-		user: %database.username%
-		password: %database.password%
+database:
+	dsn: '%database.driver%:host=%database.host%;dbname=%database.database%'
+	user: %database.username%
+	password: %database.password%
 
-	session:
-		expiration: 14 days
-
+session:
+	expiration: 14 days
 
 services:
-	database: @nette.database.default
 	authenticator: Intersob\Models\MultiAuthenticator(@team, @admin, %security.salt%)
 	admin: Intersob\Models\Admin
-	#routerFactory: RouterFactory
-	#router: @routerFactory::createRouter
 	team: Intersob\Models\Team
 	teamMember: Intersob\Models\TeamMember
 	page: Intersob\Models\Page

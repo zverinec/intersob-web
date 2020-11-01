@@ -16,17 +16,13 @@ $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
 	->addDirectory(__DIR__)
-	->addDirectory(__DIR__ . '/../libs')
 	->register();
 
 // Create Dependency Injection container from config.neon file
 // First: load config
 $configurator->addConfig(__DIR__ . '/config/config.neon');
-// Second:  overwrite it by development configuration if we are in it
-if($configurator->isDebugMode()) {
-	$configurator->addConfig(__DIR__ . '/config/config.development.neon');
-}
-// Third: overwrite by local changes
+
+// Second: overwrite by local changes
 $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 $container = $configurator->createContainer();
 

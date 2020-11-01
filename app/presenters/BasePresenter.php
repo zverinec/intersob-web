@@ -2,6 +2,7 @@
 use Intersob\Models\Admin;
 use Intersob\Models\Team;
 use Intersob\Models\Year;
+use App\Utils\Helpers;
 use Nette\Application\BadRequestException;
 
 /**
@@ -101,16 +102,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	}
 	
 	public function createTemplate($class = NULL) {
-		// inicializace
-		$texy = new \Texy();
-		$texy->encoding = 'utf-8';
-		//$texy->allowedTags = \Texy::NONE;
-		//$texy->allowedStyles = \Texy::NONE;
-		$texy->setOutputMode(Texy::HTML5);
-
-		// registrace filtru
 		$template = parent::createTemplate($class);
-		$template->registerHelper('texy', callback($texy, 'process'));
+		$template->getLatte()->addFilter('texy', Helpers::getHelper('texy'));
 		return $template;
 	}
 }

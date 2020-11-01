@@ -3,5 +3,5 @@
 {var $icon = "index"}
 
 {block #content}
-	{!$event->content|texy}
+	{$event->content|noescape|texy}
 {/block}

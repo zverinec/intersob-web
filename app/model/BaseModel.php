@@ -5,7 +5,7 @@ use Nette;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
 
-abstract class BaseModel extends Nette\Object {
+abstract class BaseModel {
 	/** @var string */
 	protected $name;
 	
@@ -139,7 +139,7 @@ abstract class BaseModel extends Nette\Object {
 	
 	private function fromCamelCase($str) {
 		$str[0] = strtolower($str[0]);
-		$func = create_function('$c', 'return "_" . Nette\Utils\Strings::lower($c[1]);');
+		$func = function($c) { return "_" . Nette\Utils\Strings::lower($c[1]); };
 		return preg_replace_callback('/([A-Z])/', $func, $str);
 	}
 

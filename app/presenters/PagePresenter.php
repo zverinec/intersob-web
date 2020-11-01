@@ -53,9 +53,9 @@ class PagePresenter extends BasePresenter {
 		
 	}
 	public function createComponentCreateForm($name) {
-		$form = $this->sharedYearForm($name); 
+		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Přidat');
-		$form->onSuccess[] = $this->createFormSent;
+		$form->onSuccess[] = [$this, createFormSent];
 		return $form;
 	}
 	public function createFormSent(Nette\Forms\Form $form) {
@@ -82,7 +82,7 @@ class PagePresenter extends BasePresenter {
 	public function createComponentUpdateForm($name) {
 		$form = $this->sharedYearForm($name); 
 		$form->addSubmit('send','Upravit');
-		$form->onSuccess[] = $this->updateFormSent;
+		$form->onSuccess[] = [$this, 'updateFormSent'];
 		return $form;
 	}
 	public function updateFormSent(Nette\Forms\Form $form) {
@@ -112,7 +112,7 @@ class PagePresenter extends BasePresenter {
 		$form = new UI\Form($this,$name);
 		$form->addSubmit('yes', 'Ano');
 		$form->addSubmit('no', 'Ne');
-		$form->onSuccess[] = $this->deleteFormSent;
+		$form->onSuccess[] = [$this, 'deleteFormSent'];
 		return $form;
 	}
 	public function deleteFormSent(Nette\Forms\Form $form) {

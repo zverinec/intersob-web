@@ -29,7 +29,7 @@ $(function(){
 			//var pathname = window.location.pathname;
 			//if (pathname.substring(0, 6) !== "/" + data.selectedData.value + "/" && pathname.substring(0, 7) != "/admin/" && pathname.substring(0, 7) != "/year/") {
 				//console.log("HERE");
-				window.location = "{!$basePath}/" + data.selectedData.value + "/";
+				window.location = {$basePath} + "/" + data.selectedData.value + "/";
 			//}
 		}
 	});
@@ -39,13 +39,6 @@ $(function(){
 
 			{* Dropdown menu *}
 			<script src="{$basePath}/js/jquery.ddslick.js" type="text/javascript"></script>
-
-			{* Wasp gallery *}
-			<link rel="stylesheet" media="screen,projection,tv" href="/intersob/wg/frontend/wasp-gallery.css" type="text/css">
-			<script src="/intersob/wg/frontend/jquery.colorbox-min.js"></script>
-			<link media="screen" rel="stylesheet" href="/intersob/wg/frontend/colorbox.css">
-			<script src="/intersob/wg/frontend/wasp-gallery.js"></script>
-			{/block}
 
 		{block head}{/block}
 		<style n:if="isset($event->color) && !empty($event->color)">
@@ -88,8 +81,8 @@ $(function(){
 				</div>
 				<div class="volume">
 						<select>
-							{foreach $yearsSelectBox as $volume}
-								<option data-href="{$basePath}/{$volume->date->format('Y')}/" value="{$volume->date->format('Y')}" {if $event->date->format('Y') == $volume->date->format('Y')}selected="selected"{/if}>Ročník {$volume->date->format('Y')}</option>
+							{foreach $yearsSelectBox as $vol}
+								<option data-href="{$basePath}/{$vol->date->format('Y')}/" value="{$vol->date->format('Y')}" {if $event->date->format('Y') == $vol->date->format('Y')}selected="selected"{/if}>Ročník {$vol->date->format('Y')}</option>
 							{/foreach}
 						</select>
 				</div>
@@ -100,24 +93,12 @@ $(function(){
 				{/if}
 				<div class="header-menu">
 					{block #menu1}
-						{!$menu1|texy}
+						{$menu1|noescape|texy}
 					{/block}
-					{*<ul class="menu1">
-						<li><a href="login.html">Přihlásit se</a></li>
-						<li><a href="about.html">Kdo jsme</a></li>
-						<li><a href="archive.html">Minulé ročníky</a></li>
-					</ul>*}
 					<hr class="menu-rule" />
 					{block #menu2}
-						{!$menu2|texy}
+						{$menu2|noescape|texy}
 					{/block}
-					{*
-					<ul class="menu2">
-						<li><a href="index.html">Aktuální</a></li>
-						<li><a href="teams.html">Týmy</a></li>
-						<li><a href="results.html">Výsledky</a></li>
-					</ul>
-					*}
 				</div>
 				<div class="cleaner"></div>
 			</div>

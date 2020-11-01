@@ -40,7 +40,7 @@ class YearPresenter extends BasePresenter {
 		$form = new UI\Form($this,$name);
 		$form->addSubmit('yes', 'Ano');
 		$form->addSubmit('no', 'Ne');
-		$form->onSuccess[] = $this->deleteFormSent;
+		$form->onSuccess[] = [$this, 'deleteFormSent'];
 		return $form;
 	}
 	public function deleteFormSent(Nette\Forms\Form $form) {
@@ -56,9 +56,9 @@ class YearPresenter extends BasePresenter {
 	}
 	
 	public function createComponentCreateForm($name) {
-		$form = $this->sharedYearForm($name); 
+		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Přidat');
-		$form->onSuccess[] = $this->createFormSent;
+		$form->onSuccess[] = [$this, 'createFormSent'];
 		return $form;
 	}
 	public function createFormSent(Nette\Forms\Form $form) {
@@ -78,7 +78,7 @@ class YearPresenter extends BasePresenter {
 	public function createComponentUpdateForm($name) {
 		$form = $this->sharedYearForm($name); 
 		$form->addSubmit('send','Upravit');
-		$form->onSuccess[] = $this->updateFormSent;
+		$form->onSuccess[] = [$this, 'updateFormSent'];
 		return $form;
 	}
 	public function updateFormSent(Nette\Forms\Form $form) {
@@ -106,19 +106,19 @@ class YearPresenter extends BasePresenter {
 				->setOption('description', 'Používá se v seznamu minulých ročníků a pro vyhledávače.');
 		$form->addText('date','Datum konání:', 10)
 				->setRequired('Vyplňte, prosím, datum konání soutěže.')
-				->addRule(callback('\Intersob\Models\Helpers','validateDate'), 'Vyplňte, prosím, datum konání ve správném tvaru.')
+				->addRule(['\Intersob\Models\Helpers','validateDate'], 'Vyplňte, prosím, datum konání ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23');
 		$form->addText('reg_open', 'Datum otevření registrace:')
 				->setRequired('Vyplňte, prosím, datum otevření registrace.')
-				->addRule(callback('\Intersob\Models\Helpers','validateDateTime'), 'Vyplňte, prosím, datum otevření ve správném tvaru.')
+				->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, datum otevření ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addText('reg_closed', 'Datum uzavření registrace:')
 				->setRequired('Vyplňte, prosím, datum uzavření registrace.')
-				->addRule(callback('\Intersob\Models\Helpers','validateDateTime'), 'Vyplňte, prosím, datum uzavření ve správném tvaru.')
+				->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, datum uzavření ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addText('info_embargo', 'Deadline pro úpravu údajů týmu:')
 			->setRequired('Vyplňte, prosím, deadline pro úpravu údajů týmu.')
-			->addRule(callback('\Intersob\Models\Helpers','validateDateTime'), 'Vyplňte, prosím, deadline pro úpravu údajů týmu ve správném tvaru.')
+			->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, deadline pro úpravu údajů týmu ve správném tvaru.')
 			->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addGroup('Obsah');
 		$form->addTextArea('menu1', 'Pravý sloupec menu:', 50,10)

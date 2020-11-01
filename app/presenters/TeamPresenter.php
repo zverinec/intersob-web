@@ -57,7 +57,7 @@ class TeamPresenter extends BasePresenter {
 		$form = $this->sharedTeamForm($name);
 		
 		$form->addSubmit('sent', 'Zaregistrovat');
-		$form->onSuccess[] = $this->regFormSent;
+		$form->onSuccess[] = [$this, 'regFormSent'];
 		return $form;
 	}
 	public function regFormSent(Form $form) {
@@ -146,7 +146,7 @@ class TeamPresenter extends BasePresenter {
 		
 		$form->setCurrentGroup();
 
-		$form->onError[] = $this->showErrorMessage;
+		$form->onError[] = [$this, 'showErrorMessage'];
 		
 		return $form;
 	}
@@ -185,7 +185,7 @@ class TeamPresenter extends BasePresenter {
 
 		$form->addSubmit('send', 'Přihlásit');
 
-		$form->onSuccess[] = $this->loginFormSucceded;
+		$form->onSuccess[] = [$this, 'loginFormSucceded'];
 		return $form;
 	}
 
@@ -243,7 +243,7 @@ class TeamPresenter extends BasePresenter {
 		$form = $this->sharedTeamForm($name, true);
 		
 		$form->addSubmit('sent', 'Změnit údaje');
-		$form->onSuccess[] = $this->settingsFormSent;
+		$form->onSuccess[] = [$this, 'settingsFormSent'];
 		return $form;
 	}
 	
@@ -298,7 +298,7 @@ class TeamPresenter extends BasePresenter {
 			->setRequired('Vyplňte, prosím, heslo pro kontrolu shody.')
 			->addRule(Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
 		$form->addSubmit('send', 'Změnit');
-		$form->onSuccess[] = $this->changePassword;
+		$form->onSuccess[] = [$this, 'changePassword'];
 		return $form;
 	}
 	
@@ -336,7 +336,7 @@ class TeamPresenter extends BasePresenter {
 		$form->addMultiSelect('exclude', 'Vyjmout ročníky', $this->year->findAll()->order('date DESC')->fetchPairs('id_year', 'name'), 5);
 
 		$form->addSubmit('submitted', 'Vypsat');
-		$form->onSuccess[] = $this->mailsSubmitted;
+		$form->onSuccess[] = [$this, 'mailsSubmitted'];
 
 		return $form;
 	}

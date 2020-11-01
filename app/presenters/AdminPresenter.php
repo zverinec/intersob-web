@@ -25,7 +25,7 @@ class AdminPresenter extends BasePresenter {
 
 		$form->addSubmit('send', 'Přihlásit');
 
-		$form->onSuccess[] = $this->loginFormSucceded;
+		$form->onSuccess[] = [$this, 'loginFormSucceded'];
 		return $form;
 	}
 
@@ -100,7 +100,7 @@ class AdminPresenter extends BasePresenter {
 		$form = $this->prepareForm();
 		$form['password']->setRequired('Zadejte, prosím, heslo.');
 		$form->addSubmit('send', 'Přidat uživatele');
-		$form->onSuccess[] = $this->addFormSucceeded;
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -123,7 +123,7 @@ class AdminPresenter extends BasePresenter {
 		$form = $this->prepareForm();
 		$form['password']->setOption('description', '(pouze pokud se mění)');
 		$form->addSubmit('send', 'Upravit uživatele');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 
@@ -149,7 +149,7 @@ class AdminPresenter extends BasePresenter {
 		$form = new UI\Form();
 		$form->addSubmit('yes', 'Ano');
 		$form->addSubmit('no', 'Ne');
-		$form->onSuccess[] = $this->deleteFormSucceeded;
+		$form->onSuccess[] = [$this, 'deleteFormSucceeded'];
 		return $form;
 	}
 
