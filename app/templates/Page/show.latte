@@ -5,5 +5,5 @@
 
 {block #content}
 	<h1>{$page->heading}</h1>
-	{$page->content|noescape|texy}
+	{$page->content|texy|noescape}
 {/block}
