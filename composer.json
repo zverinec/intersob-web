@@ -25,7 +25,7 @@
 		"texy/texy": "~2.9",
 		"nextras/mail-panel": "2.4"
 	},
-    "require-dev": {
-        "nette/tester": "@dev"
+	"require-dev": {
+		"nette/tester": "@dev"
 	}
 }
