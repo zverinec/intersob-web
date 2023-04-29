@@ -16,21 +16,17 @@
 
 			<meta property="og:image" content="{$baseUrl}/images/sob.png" />
 			{block scripts}
-			<script src="{$basePath}/js/jquery-v1.9.1.js"></script>
+			<script src="{$basePath}/js/jquery-3.6.4.min.js"></script>
 			<script src="{$basePath}/js/netteForms.js"></script>
 			<script type="text/javascript">
 $(function(){
 	var count = 0;
-    $('.volume select').ddslick({
+	$('.volume select').ddslick({
 		width: 160,
 		background: "#2A2A2A",
 		onSelected: function(data){
 			if(count++ == 0) return;
-			//var pathname = window.location.pathname;
-			//if (pathname.substring(0, 6) !== "/" + data.selectedData.value + "/" && pathname.substring(0, 7) != "/admin/" && pathname.substring(0, 7) != "/year/") {
-				//console.log("HERE");
-				window.location = {$basePath} + "/" + data.selectedData.value + "/";
-			//}
+			window.location = {$basePath} + "/" + data.selectedData.value + "/";
 		}
 	});
 
