@@ -2,6 +2,7 @@
 
 use Nette\Application\Routers\RouteList,
 	Nette\Application\Routers\Route;
+use Nette\Routing\Router;
 
 
 /**
@@ -10,26 +11,23 @@ use Nette\Application\Routers\RouteList,
 class RouterFactory
 {
 
-	/**
-	 * @return Nette\Application\IRouter
-	 */
-	public static function createRouter()
+	public static function createRouter(): Router
 	{
 		$router = new RouteList();
-		$router[] = new Route('index.php', 'Page:default', Route::ONE_WAY);
-		
-		$router[] = new Route('year/', 'Year:default');
-		$router[] = new Route('<year [0-9]{4}>/page/show/<url>/', 'Page:show');
-		$router[] = new Route('[<year [0-9]{4}>/]', 'Page:default');
-		
-		$router[] = new Route('<year [0-9]{4}>/page/<action>/', 'Page:default');
-		$router[] = new Route('<year [0-9]{4}>/team/<action>/', 'Team:default');
-		
-		$router[] = new Route('admin/year/<action>/[<id>/]', 'Year:list');
-		$router[] = new Route('admin/page/<action >/[<id>/]', 'Page:list');
-		
-		$router[] = new Route('<presenter>/<action>/[<id>/]', 'Page:default');
-		
+		$router->addRoute('index.php', 'Page:default', Route::ONE_WAY);
+
+        $router->addRoute('year/', 'Year:default');
+        $router->addRoute('<year [0-9]{4}>/page/show/<url>/', 'Page:show');
+        $router->addRoute('[<year [0-9]{4}>/]', 'Page:default');
+
+        $router->addRoute('<year [0-9]{4}>/page/<action>/', 'Page:default');
+        $router->addRoute('<year [0-9]{4}>/team/<action>/', 'Team:default');
+
+        $router->addRoute('admin/year/<action>/[<id>/]', 'Year:list');
+        $router->addRoute('admin/page/<action >/[<id>/]', 'Page:list');
+
+        $router->addRoute('<presenter>/<action>/[<id>/]', 'Page:default');
+
 		return $router;
 	}
 

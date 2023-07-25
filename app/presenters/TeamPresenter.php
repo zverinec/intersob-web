@@ -27,7 +27,7 @@ class TeamPresenter extends BasePresenter {
 	}
 
 	public function actionDefault($year, $order = NULL, $members2 = NULL) {
-		
+
 		$event = $this->prepareEvent($year);
 		$teams = $this->team->findAll()->where("id_year = ?", $event->id_year);
 		$members = $this->teamMember->findFromYear($event->id_year);
@@ -44,7 +44,7 @@ class TeamPresenter extends BasePresenter {
 		$this->template->members = $members;
 
 	}
-	
+
 	public function actionRegistration($year) {
 		$this->ensureNonTeamRight();
 		$event = $this->prepareEvent($year);
@@ -55,7 +55,7 @@ class TeamPresenter extends BasePresenter {
 	}
 	public function createComponentRegForm($name) {
 		$form = $this->sharedTeamForm($name);
-		
+
 		$form->addSubmit('sent', 'Zaregistrovat');
 		$form->onSuccess[] = [$this, 'regFormSent'];
 		return $form;
@@ -66,7 +66,7 @@ class TeamPresenter extends BasePresenter {
 		$current = new DateTime;
 		if(! ($current > $event->reg_open && $current < $event->reg_closed)) {
 			$this->flashMessage('Registrace neprobíhá, nelze provést registraci.', 'error');
-			$this->redirect('registration', $this->getParam('year'));
+			$this->redirect('registration', $this->getParameter('year'));
 			return;
 		}
 		$values = $form->getValues();
@@ -95,22 +95,22 @@ class TeamPresenter extends BasePresenter {
 			$form->addError('Nepodařilo se zaregistrovat tým. Prosím, kontaktujte nás.');
 			return;
 		}
-		
+
 		$m1['id_team'] = $row->id_team;
 		$m2['id_team'] = $row->id_team;
 		$m3['id_team'] = $row->id_team;
 		$m4['id_team'] = $row->id_team;
-		
+
 		$model2 = $this->teamMember;
 		$model2->insert($m1);
 		$model2->insert($m2);
 		$model2->insert($m3);
 		$model2->insert($m4);
-		
+
 		$this->flashMessage('Váš tým byl úspěšně zaregistrován. Těšíme se.', 'success');
 		$this->redirect('login', $this->getParameter('year'));
 	}
-	
+
 	private function sharedTeamForm($name, $update = false) {
 		$form = new UI\Form($this,$name);
 		$form->addGroup('Obecné informace o týmu');
@@ -125,12 +125,12 @@ class TeamPresenter extends BasePresenter {
 				->setRequired('Vyplňte, prosím, heslo pro kontrolu shody.')
 					->addRule(Form::EQUAL, 'Hesla musí souhlasit.', $form['password']);
 		}
-		
+
 		$form->addText('contact_phone','Kontaktní telefon:')
 				->addRule(Form::MAX_LENGTH, 'Maximální délka kontaktního telefonu je 20 znaků.', 20)
 				->setRequired('Vyplňte, prosím, kontaktní telefon.')
 				->setOption('description','Telefon, který budete mít v průběhu hry u sebe.');
-		
+
 		$form->addGroup('1. člen');
 		$m1 = $form->addContainer('m1');
 		$this->getTeamMemberInfo($m1, '1', 'prvního');
@@ -143,11 +143,11 @@ class TeamPresenter extends BasePresenter {
 		$form->addGroup('4. člen');
 		$m4 = $form->addContainer('m4');
 		$this->getTeamMemberInfo($m4, '4', 'čtvrtého');
-		
+
 		$form->setCurrentGroup();
 
 		$form->onError[] = [$this, 'showErrorMessage'];
-		
+
 		return $form;
 	}
 
@@ -170,10 +170,10 @@ class TeamPresenter extends BasePresenter {
 			->addRule(Form::EMAIL, 'Vyplňte, prosím, e-mail '.$long.' člena ve správném tvaru e-mailové adresy.')
 			;//->setRequired('Vyplňte, prosím, e-mail '.$long.' člena.');
 	}
-	
+
 	public function actionLogin($year) {
 		$this->ensureNonTeamRight();
-		
+
 	}
 	protected function createComponentLoginForm() {
 		$form = new UI\Form;
@@ -205,17 +205,17 @@ class TeamPresenter extends BasePresenter {
 			return;
 		}
 
-		$this->redirect('Team:settings', $this->getParam('year'));
+		$this->redirect('Team:settings', $this->getParameter('year'));
 	}
-	
-	public function actionLogout($year) {
+
+	public function actionLogout($year): never {
 		$this->ensureTeamRight();
-		
+
 		$this->getUser()->logout();
 		$this->flashMessage('Byli jste úspěšně odhlášeni.', 'success');
 		$this->redirect('login', $year);
 	}
-	
+
 	public function actionSettings($year) {
 		$this->ensureTeamRight();
 
@@ -227,26 +227,26 @@ class TeamPresenter extends BasePresenter {
 		foreach($members as $member) {
 			$temp['m'.$i++] = $member->toArray();
 		}
-		
+
 		$merged = array_merge_recursive($values, $temp);
-		
+
 		$this->getComponent('settingsForm')->setDefaults($merged);
-		
+
 		$event = $this->prepareEvent($year);
 		$current = new DateTime;
 		if(! ($current > $event->reg_open && $current < $event->info_embargo)) {
 			$this->template->registrationOpen = false;
 		}
 	}
-	
+
 	public function createComponentSettingsForm($name) {
 		$form = $this->sharedTeamForm($name, true);
-		
+
 		$form->addSubmit('sent', 'Změnit údaje');
 		$form->onSuccess[] = [$this, 'settingsFormSent'];
 		return $form;
 	}
-	
+
 	public function settingsFormSent(Form $form) {
 		// Check if the registration is open
 		$event = $this->prepareEvent($this->getParameter('year'));
@@ -283,11 +283,11 @@ class TeamPresenter extends BasePresenter {
 			$temp = 'm'.$i++;
 			$this->teamMember->update($member->id_team_member, $$temp);
 		}
-		
+
 		$this->flashMessage('Registrační údaje vašeho týmu byly úspěšně změněny.', 'success');
 		$this->redirect('settings', $this->getParameter('year'));
 	}
-	
+
 	public function createComponentChangePassword($name) {
 		$form = new UI\Form($this,$name);
 		$form->addPassword('old', 'Staré heslo:')
@@ -301,10 +301,11 @@ class TeamPresenter extends BasePresenter {
 		$form->onSuccess[] = [$this, 'changePassword'];
 		return $form;
 	}
-	
+
 	public function changePassword(Form $form) {
 		$values = $form->getValues();
-		if($this->user->getAuthenticator()->calculateHash($values['old']) != $this->user->getIdentity()->password) {
+        $old = $this->team->find($this->user->getId())->toArray();
+		if($this->user->getAuthenticator()->calculateHash($values['old']) != $old['password']) {
 			$form->addError('Vámi zadané staré heslo neodpovídá skutečnému heslu.');
 			return;
 		}
@@ -315,7 +316,7 @@ class TeamPresenter extends BasePresenter {
 		$this->flashMessage('Vaše heslo bylo úspěšně změněno.', 'success');
 		$this->redirect('settings', $this->getParameter('year'));
 	}
-	
+
 	public function actionContacts($year, $order = NULL, $members2 = NULL) {
 		$this->ensureAdminRight();
 		$this->actionDefault($year, $order, $members2);

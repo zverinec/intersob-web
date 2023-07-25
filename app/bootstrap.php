@@ -6,11 +6,15 @@ require __DIR__ . '/../vendor/autoload.php';
 use Nette\Application\Routers\Route;
 
 
-$configurator = new \Nette\Configurator();
+$configurator = new \Nette\Bootstrap\Configurator();
+
+$problem = FALSE; // Set to true and add whitelisted IPs
+$remoteIP = $_SERVER['REMOTE_ADDR'];
+$allowedIP = array("127.0.0.1", "::1", "192.168.99.1", "172.24.0.1", "172.20.0.1", "172.21.0.1");
 
 // Enable Nette Debugger for error visualisation & logging
-//$configurator->setDebugMode(TRUE);
-$configurator->enableDebugger(__DIR__ . '/../log');
+$configurator->setDebugMode(in_array($remoteIP, $allowedIP, true));
+$configurator->enableTracy(__DIR__ . '/../log');
 
 // Enable RobotLoader - this will load all classes automatically
 $configurator->setTempDirectory(__DIR__ . '/../temp');
@@ -27,10 +31,11 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 $container = $configurator->createContainer();
 
 // Turn on HTTPS when request is secured
-/** @var Request $httpRequest */
-$httpRequest = $container->getByType('Nette\\Http\\Request');
+/** @var \Nette\Http\Request $httpRequest */
+$httpRequest = $container->getByType(\Nette\Http\Request::class);
 if ($httpRequest->isSecured()) {
-       Route::$defaultFlags = Route::SECURED;
+       // Route::$defaultFlags = Route::SECURED;
+    // TODO
 }
 
 // Setup router

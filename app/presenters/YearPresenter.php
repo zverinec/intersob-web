@@ -1,19 +1,20 @@
 <?php
 
+use Intersob\Models\Helpers;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI;
 use Nette\Utils\DateTime;
 
 class YearPresenter extends BasePresenter {
-	
+
 	public function actionDefault() {
 		$years = $this->year->findAll()->order('date DESC');
 		$this->template->years = $years;
 	}
-	
+
 	public function actionCreate() {
 		$this->ensureAdminRight();
-		
+
 	}
 	public function actionUpdate($id) {
 		$this->ensureAdminRight();
@@ -35,7 +36,7 @@ class YearPresenter extends BasePresenter {
 		}
 		$this->template->data = $data;
 	}
-	
+
 	public function createComponentDeleteForm($name) {
 		$form = new UI\Form($this,$name);
 		$form->addSubmit('yes', 'Ano');
@@ -43,7 +44,7 @@ class YearPresenter extends BasePresenter {
 		$form->onSuccess[] = [$this, 'deleteFormSent'];
 		return $form;
 	}
-	public function deleteFormSent(Nette\Forms\Form $form) {
+	public function deleteFormSent(Nette\Forms\Form $form): never {
 		$id = $this->getParameter('id');
 		if($form['yes']->isSubmittedBy()) {
 			$this->year->delete($id);
@@ -52,9 +53,8 @@ class YearPresenter extends BasePresenter {
 			$this->flashMessage('Nic nebylo provedeno.', 'info');
 		}
 		$this->redirect('default');
-		return;
 	}
-	
+
 	public function createComponentCreateForm($name) {
 		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Přidat');
@@ -69,14 +69,14 @@ class YearPresenter extends BasePresenter {
 			$form->addError('Ve stejném roce už akce jednou proběhla.');
 			return;
 		}
-		
+
 		$model->insert($values);
 		$this->flashMessage('Nový ročník byl úspěšně vytvořen.', 'success');
 		$this->redirect('default');
 	}
-	
+
 	public function createComponentUpdateForm($name) {
-		$form = $this->sharedYearForm($name); 
+		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Upravit');
 		$form->onSuccess[] = [$this, 'updateFormSent'];
 		return $form;
@@ -93,7 +93,7 @@ class YearPresenter extends BasePresenter {
 		$this->flashMessage('Ročník byl úspěšně upraven.', 'success');
 		$this->redirect('default');
 	}
-	
+
 	private function sharedYearForm($name) {
 		$form = new UI\Form($this,$name);
 		$form->addGroup('Statické informace');
@@ -106,23 +106,23 @@ class YearPresenter extends BasePresenter {
 				->setOption('description', 'Používá se v seznamu minulých ročníků a pro vyhledávače.');
 		$form->addText('date','Datum konání:', 10)
 				->setRequired('Vyplňte, prosím, datum konání soutěže.')
-				->addRule(['\Intersob\Models\Helpers','validateDate'], 'Vyplňte, prosím, datum konání ve správném tvaru.')
+				->addRule([Helpers::class,'validateDate'], 'Vyplňte, prosím, datum konání ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23');
 		$form->addText('reg_open', 'Datum otevření registrace:')
 				->setRequired('Vyplňte, prosím, datum otevření registrace.')
-				->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, datum otevření ve správném tvaru.')
+				->addRule([Helpers::class,'validateDateTime'], 'Vyplňte, prosím, datum otevření ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addText('reg_closed', 'Datum uzavření registrace:')
 				->setRequired('Vyplňte, prosím, datum uzavření registrace.')
-				->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, datum uzavření ve správném tvaru.')
+				->addRule([Helpers::class,'validateDateTime'], 'Vyplňte, prosím, datum uzavření ve správném tvaru.')
 				->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addText('info_embargo', 'Deadline pro úpravu údajů týmu:')
 			->setRequired('Vyplňte, prosím, deadline pro úpravu údajů týmu.')
-			->addRule(['\Intersob\Models\Helpers','validateDateTime'], 'Vyplňte, prosím, deadline pro úpravu údajů týmu ve správném tvaru.')
+			->addRule([Helpers::class,'validateDateTime'], 'Vyplňte, prosím, deadline pro úpravu údajů týmu ve správném tvaru.')
 			->setOption('description', 'Ve tvaru 2013-03-23 10:11:12');
 		$form->addGroup('Obsah');
 		$form->addTextArea('menu1', 'Pravý sloupec menu:', 50,10)
-				->setOption('description', 'Položky v pravém menu daného ročníku.');
+				->setOption('description', 'Položky v pravém menu daného ročníku. Systémové URL: <YEAR>/team/registration, <YEAR>/team/login, <YEAR>/team/settings');
 		$form->addTextArea('menu2', 'Levý sloupec menu:', 50,10)
 				->setOption('description', 'Položky v levém menu daného ročníku.');
 		$form->addTextArea('content', 'Obsah titulní stránky:', 50,20)

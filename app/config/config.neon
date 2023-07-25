@@ -9,10 +9,10 @@ parameters:
 		salt: 'aeqyU9dRnDIQbsYFJ6aPtIXGvS0Gq2En'
 	database:
 		driver: mysql
-		host: localhost
-		database: intersob
-		username: root
-		password:
+		host: db
+		database: intersob_production
+		username: user
+		password: password
 	uploads:
 		dirs: [files]
 
@@ -38,3 +38,8 @@ services:
 	teamMember: Intersob\Models\TeamMember
 	page: Intersob\Models\Page
 	year: Intersob\Models\Year
+
+decorator:
+  FilePresenter:
+    setup:
+      - injectUploadsParameters(%uploads%)

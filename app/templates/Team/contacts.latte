@@ -5,7 +5,7 @@
 	<p><strong>Řazení</strong>: <a href="{link this, $year, NULL, $members2}">dle názvů týmů</a>, <a href="{link this, $year, 'inserted', $members2}">dle času registrace</a></p>
 
 	<p><strong>Výpis členů</strong>: <a href="{link this, $year, $order, NULL}">kompletní</a>, <a href="{link this, $year, $order, 'summary'}">stručný</a>, <a href="{link this, $year, $order, 'none'}">žádný</a></p>
-	
+
 	{if count($teams) > 0}
 		{foreach $teams as $team}
 			{first}<table>{/first}
@@ -30,7 +30,7 @@
 						<table>
 						{foreach $members[$team->id_team] as $member}
 								{continueIf empty($member->name)}
-								{var $memberCount += 1}
+								{var $memberCount = $memberCount + 1}
 								{if $members2 === 'summary'}
 									{$member->name}{if !$iterator->isLast()}, {/if}
 								{else}
@@ -41,7 +41,7 @@
 										<td>{$member->email}</td>
 									</tr>
 								{/if}
-						{/foreach}	
+						{/foreach}
 						</table>
 					{/if}
 				</td>

@@ -4,6 +4,7 @@ use Intersob\Models\Team;
 use Intersob\Models\Year;
 use App\Utils\Helpers;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\Template;
 
 /**
  * Base presenter for all application presenters.
@@ -16,7 +17,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	public function injectBase(Year $year) {
 		$this->year = $year;
 	}
-	
+
 	protected function ensureAdminRight() {
 		if(!$this->user->isInRole(Admin::ADMIN)) {
 			$this->redirect("Admin:login");
@@ -28,7 +29,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 			$this->redirect("Admin:");
 		}
 	}
-	
+
 	protected function ensureTeamRight() {
 		if(!$this->user->isInRole(Team::TEAM)) {
 			$this->redirect("Team:login", $this->getParameter('year'));
@@ -40,7 +41,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 			$this->redirect("Team:settings", $this->getParameter('year'));
 		}
 	}
-	
+
 	protected function prepareEvent($year) {
 		if(isSet($this->template->event) && $this->template->event->date->format('Y') == $year) {
 			return $this->template->event;
@@ -52,7 +53,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		$this->template->event = $event;
 		return $event;
 	}
-	
+
 	protected function prepareLastEvent() {
 		$event = $this->year->findLastYear();
 		if(!$event) {
@@ -61,7 +62,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		$this->template->event = $event;
 		return $event;
 	}
-	
+
 	protected function beforeRender() {
 		parent::beforeRender();
 		if($this->user->isInRole(Admin::ADMIN)) {
@@ -89,19 +90,21 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 				$this->redirect('Admin:');
 			}
 		}
-		
+
 		// Fetch all years
 		$years = $this->year->findAll()->order('date DESC');
 		$this->template->yearsSelectBox = $years;
-		
+
+        /** @var \Nette\Security\SimpleIdentity $identity */
+        $identity = $this->user->getIdentity();
 		$event = $this->template->event;
-		if ($this->user->isInRole(Team::TEAM) && $this->user->getIdentity()->id_year != $event->id_year) {
+		if ($this->user->isInRole(Team::TEAM) && $identity->id_year != $event->id_year) {
 			$this->user->logout();
 			$this->redirect('this');
 		}
 	}
-	
-	public function createTemplate($class = NULL) {
+
+	public function createTemplate($class = NULL): Template {
 		$template = parent::createTemplate($class);
 		$template->getLatte()->addFilter('texy', Helpers::getHelper('texy'));
 		return $template;

@@ -3,10 +3,10 @@ namespace Intersob\Models;
 
 
 use Nette\Security\AuthenticationException;
-use Nette\Security\IAuthenticator;
-use Nette\Security\Identity;
+use Nette\Security\Authenticator;
+use Nette\Security\SimpleIdentity;
 
-class MultiAuthenticator implements IAuthenticator {
+class MultiAuthenticator implements Authenticator {
 
 	const ADMIN = 0;
 	const TEAM = 1;
@@ -28,7 +28,7 @@ class MultiAuthenticator implements IAuthenticator {
 
 		$this->type = self::ADMIN;
 	}
-	
+
 	public function setYear($year) {
 		$this->year = $year;
 	}
@@ -39,23 +39,23 @@ class MultiAuthenticator implements IAuthenticator {
 		}
 	}
 
-	public function authenticate(array $credentials) {
+	public function authenticate(string $user, string $password): SimpleIdentity {
 		if ($this->type === self::ADMIN) {
-			return $this->authenticateAdmin($credentials);
+			return $this->authenticateAdmin($user, $password);
 		} else {
-			return $this->authenticateTeam($credentials);
+			return $this->authenticateTeam($user, $password);
 		}
 	}
-	
+
 	public function calculateHash($password) {
 		return hash('sha256', $this->salt."#".$password);
 	}
 
-	public function authenticateTeam(array $credentials) {
+	public function authenticateTeam(string $user, string $password): SimpleIdentity {
 		if(empty($this->year)) {
 			throw new AuthenticationException('Nastala chyba při přihlašování, vyberte správný ročník.');
 		}
-		list($username, $password) = $credentials;
+		$username = $user;
 		$row = $this->team->getTableSelection()->where("name = ? AND id_year = ?", $username, $this->year)->fetch();
 
 		if (!$row) {
@@ -66,12 +66,12 @@ class MultiAuthenticator implements IAuthenticator {
 			throw new AuthenticationException('Hesla nesouhlasí.', self::INVALID_CREDENTIAL);
 		}
 		$temp = $row->toArray();
-		unset($temp['password']);
-		return new Identity($row->id_team, Team::TEAM,  $temp);
+        unset($temp['password']);
+		return new SimpleIdentity($row->id_team, Team::TEAM,  $temp);
 	}
 
-	public function authenticateAdmin(array $credentials) {
-		list($username, $password) = $credentials;
+	public function authenticateAdmin(string $user, string $password): SimpleIdentity {
+        $username = $user;
 		$row = $this->admin->getTableSelection()->where("nickname = ?", $username)->fetch();
 
 		if (!$row) {
@@ -83,7 +83,7 @@ class MultiAuthenticator implements IAuthenticator {
 		}
 		$temp = $row->toArray();
 		unset($temp['password']);
-		return new Identity($row->id_user, Admin::ADMIN,  $temp);
+		return new SimpleIdentity($row->id_user, Admin::ADMIN,  $temp);
 	}
 
 }

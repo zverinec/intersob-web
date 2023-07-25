@@ -8,11 +8,11 @@ use Nette\Utils\Validators;
 
 class Helpers {
 
-	public static function validateDate(Nette\Forms\IControl $control) {
+	public static function validateDate(Nette\Forms\Control $control) {
 		$date = $control->getValue();
 		return self::validateDateFromString($date);
 	}
-	
+
 	private static function validateDateFromString($date) {
 		try {
 			$check = new DateTime($date);
@@ -25,8 +25,8 @@ class Helpers {
 			return false;
 		}
 	}
-	
-	public static function validateDateTime(Nette\Forms\IControl $control) {
+
+	public static function validateDateTime(Nette\Forms\Control $control) {
 		$date = $control->getValue();
 		try {
 			$check = new DateTime($date);
@@ -58,8 +58,8 @@ class Helpers {
 			return false;
 		}
 	}
-	
-	
+
+
 
 }
 

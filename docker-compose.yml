@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+    webserver:
+       build: .
+       ports:
+         - ${IP}:80:80
+         - ${IP}:443:443
+       volumes:
+         - .:/var/www/html/
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+          - ${IP}:8080:8080
+    db:
+        image: mariadb:10.6
+        restart: always
+        user: mysql
+        ports:
+          - ${IP}:3306:3306
+        volumes:
+           - ./.mysql:/var/lib/mysql
+        environment:
+           MARIADB_ROOT_PASSWORD: root
+           MARIADB_USER: user
+           MARIADB_PASSWORD: password
+           MARIADB_DATABASE: intersob_production

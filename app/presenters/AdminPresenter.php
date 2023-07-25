@@ -14,7 +14,7 @@ class AdminPresenter extends BasePresenter {
 	public function injectAdmin(Admin $admin) {
 		$this->admin = $admin;
 	}
-	
+
 	protected function createComponentLoginForm() {
 		$form = new UI\Form;
 		$form->addText('nickname', 'Přezdívka:')
@@ -41,10 +41,10 @@ class AdminPresenter extends BasePresenter {
 
 		$this->redirect('Admin:');
 	}
-	
+
 	public function actionDefault() {
 		$this->ensureAdminRight();
-		
+
 	}
 
 	public function actionList() {
@@ -73,13 +73,13 @@ class AdminPresenter extends BasePresenter {
 		}
 		$this->template->data = $data;
 	}
-	
+
 	public function actionLogin() {
 		$this->ensureNonAdminRight();
 
 	}
 
-	public function actionLogout() {
+	public function actionLogout(): never {
 		$this->getUser()->logout();
 		$this->flashMessage('Byli jste úspěšně odhlášeni.', 'success');
 		$this->redirect('login');

@@ -1,6 +1,7 @@
 log/*
 temp/*
 vendor/*
+.mysql/*
 
 .DS_Store
 !.gitignore

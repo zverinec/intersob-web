@@ -14,7 +14,7 @@ class PagePresenter extends BasePresenter {
 	public function injectPage(Page $page) {
 		$this->page = $page;
 	}
-	
+
 	public function actionDefault($year = NULL) {
 //		if($year == NULL) {
 //			$event = $this->prepareLastEvent();
@@ -22,7 +22,7 @@ class PagePresenter extends BasePresenter {
 //			$event = $this->prepareEvent($year);
 //		}
 	}
-	
+
 	public function actionShow($year, $url) {
 		$event = $this->prepareEvent($year);
 		$page = $this->page->findByYearAndUrl($event->id_year, $url);
@@ -41,21 +41,21 @@ class PagePresenter extends BasePresenter {
 			throw new BadRequestException();
 		}
 		$pages = $this->page->findByYear($yearData->id_year);
-		
+
 		$this->template->pages = $pages;
 	}
-	
+
 	public function actionCreate($year) {
 		if(empty($year)) {
 			throw new BadRequestException();
 		}
 		$this->ensureAdminRight();
-		
+
 	}
 	public function createComponentCreateForm($name) {
 		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Přidat');
-		$form->onSuccess[] = [$this, createFormSent];
+		$form->onSuccess[] = $this->createFormSent(...);
 		return $form;
 	}
 	public function createFormSent(Nette\Forms\Form $form) {
@@ -76,11 +76,11 @@ class PagePresenter extends BasePresenter {
 		$this->ensureAdminRight();
 
 		$data = $this->page->find($id)->toArray();
-		
+
 		$this->getComponent('updateForm')->setDefaults($data);
 	}
 	public function createComponentUpdateForm($name) {
-		$form = $this->sharedYearForm($name); 
+		$form = $this->sharedYearForm($name);
 		$form->addSubmit('send','Upravit');
 		$form->onSuccess[] = [$this, 'updateFormSent'];
 		return $form;
@@ -115,7 +115,7 @@ class PagePresenter extends BasePresenter {
 		$form->onSuccess[] = [$this, 'deleteFormSent'];
 		return $form;
 	}
-	public function deleteFormSent(Nette\Forms\Form $form) {
+	public function deleteFormSent(Nette\Forms\Form $form): never {
 		$id = $this->getParameter('id');
 		$model = $this->page;
 		$page = $model->find($id);
@@ -127,9 +127,8 @@ class PagePresenter extends BasePresenter {
 		}
 		$year = $this->year->find($page->id_year);
 		$this->redirect('list', $year->date->format('Y'));
-		return;
 	}
-	
+
 	private function sharedYearForm($name) {
 		$form = new UI\Form($this,$name);
 		$form->addGroup('Zařazení a obsah');
@@ -142,7 +141,7 @@ class PagePresenter extends BasePresenter {
 		$form->addTextArea('content', 'Obsah stránky:', 50,20)
 				->setRequired('Vyplňte, prosím, obsah stránky.')
 				->setOption('description', 'Zobrazí se po otevření stránky.');
-		
+
 		$form->addGroup('Metainformace');
 		$form->addTextArea('description', 'Krátký popis:', 50,3)
 				->setRequired('Vyplňte, prosím, krátký popis stránky a jejího obsahu.')
@@ -150,7 +149,7 @@ class PagePresenter extends BasePresenter {
 		$form->addTextArea('keywords', 'Klíčová slova:', 50,3)
 				->setRequired('Vyplňte, prosím, klíčová slova, která stránku charakterizují.')
 				->setOption('description', 'Používá se pro vyhledávače, jednotlivá slova oddělená čárkami.');
-	
+
 		$form->setCurrentGroup();
 		$form->addCheckbox('hidden', 'Stránka je skryta');
 		$form->addText('icon', 'Ikonka v zápatí');

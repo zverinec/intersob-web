@@ -1,23 +1,29 @@
 <?php
 
 use Nette\Application\UI;
+use Nette\Http\FileUpload;
 use Nette\InvalidStateException;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 
 class FilePresenter extends BasePresenter {
 
+    private array $uploadParameters;
+
+    public function injectUploadsParameters(array $uploadParameters) {
+        $this->uploadParameters = $uploadParameters;
+    }
+
 	public function startup() {
 		$this->ensureAdminRight();
 		parent::startup();
 	}
-	
+
 	public function actionDefault($subpath = null) {
-		$params = $this->context->getParameters();
-		$subpath = str_replace('..', '', $subpath);
+		$subpath = str_replace('..', '', (string) $subpath);
 		if(empty($subpath)) {
 			$files = array();
-			foreach($params['uploads']['dirs'] as $dir) {
+			foreach($this->uploadParameters['dirs'] as $dir) {
 				$dir = str_replace('..', '', $dir);
 				$files[] = new SplFileInfo(__DIR__ . '/../../public/' . $dir);
 			}
@@ -52,8 +58,8 @@ class FilePresenter extends BasePresenter {
 			return;
 		}
 		$path = __DIR__ . '/../../public/' .$subpath . '/' . Strings::webalize($values['new']);
-		if(!mkdir($path, 0777)) {
-			$this->flashMessage('Vytvoření nového adresáře se nezdařilo. Kontaktujte správce.', 'error').
+		if(!@mkdir($path, 0777)) {
+			$this->flashMessage('Vytvoření nového adresáře se nezdařilo. Pokud již neexistuje pak kontaktujte správce.', 'error').
 			$this->redirect('this');
 		} else {
 			$this->flashMessage('Nový adresář byl úspěšně vytvořen.', 'success') .
@@ -61,20 +67,20 @@ class FilePresenter extends BasePresenter {
 		}
 	}
 
-	public function actionDelete($file) {
+	public function actionDelete($file): never {
 		$file = str_replace('..','', $file);
 		$path = __DIR__ . '/../../public/' .$file;
 
 		if(file_exists($path)) {
 			if(is_dir($path)) {
-				$result = rmdir($path);
+				$result = @rmdir($path);
 			} else {
 				$result = unlink($path);
 			}
 			if ($result) {
 				$this->flashMessage('Položka byla úspěšně smazána.', 'success');
 			} else {
-				$this->flashMessage('Položku se nepodařilo smazat. Kontaktujte správce.', 'error');
+				$this->flashMessage('Položku se nepodařilo smazat. Pokud je složka prázdná pak kontaktujte správce.', 'error');
 			}
 		} else {
 			$this->flashMessage('Položka neexistuje.','error');
@@ -103,22 +109,27 @@ class FilePresenter extends BasePresenter {
 			return;
 		}
 		$files = array($values['file1'],$values['file2'],$values['file3'],$values['file4'],$values['file5']);
-		//dump($files);
+        bdump($files);
 		$i = 1;
-		foreach($files as $file) {
+        /** @var FileUpload $file */
+        foreach($files as $file) {
 			if($file->isOk()) {
 				$path = __DIR__ . '/../../public/' .$subpath . '/' . $file->getName();
 				try {
 					$file->move($path);
+                    $i++;
+                    continue;
 				} catch (InvalidStateException $ex) {
 					$form->addError('Přesun souboru č. ' . $i . ' do požadované složky selhal. Pravděpodobně došlo k problému s oprávněními, kontaktujte správce.');
 				}
 			}
-			if ($file->getTemporaryFile() === '') {
+            if ($file->getError() === UPLOAD_ERR_NO_FILE) {
+                $i++;
+                continue;
+            } else {
 				$form->addError('Upload souboru č. ' . $i . ' selhal. Pravděpodobně překročena maximální velikost souboru či délka běhu skriptu.');
 				return;
 			}
-			$i++;
 		}
 		$this->flashMessage('Upload byl úspěšně dokončen.','success');
 		$this->redirect('this');
