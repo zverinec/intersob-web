@@ -2,49 +2,25 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="150.209mm"
-   height="50mm"
-   viewBox="0 0 150.209 50"
+   width="150"
+   height="50"
+   viewBox="0 0 39.6875 13.229167"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
-   sodipodi:docname="intersob-prf.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo-prf.svg"
    inkscape:export-filename="/home/apophis/jan/KSI/intersob-web/public/images/logo-mu.png"
    inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4">
+   inkscape:export-ydpi="25.4"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2">
-    <clipPath
-       id="clipPath4560"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4558"
-         d="M 0,82.21 H 174.25 V 0 H 0 Z" />
-    </clipPath>
-    <clipPath
-       id="clipPath4560-3"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4558-6"
-         d="M 0,82.21 H 174.25 V 0 H 0 Z" />
-    </clipPath>
-    <clipPath
-       id="clipPath4560-7"
-       clipPathUnits="userSpaceOnUse">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4558-0"
-         d="M 0,82.21 H 174.25 V 0 H 0 Z" />
-    </clipPath>
     <clipPath
        id="clipPath5141"
        clipPathUnits="userSpaceOnUse">
@@ -69,21 +45,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="366.00511"
-     inkscape:cy="2.2190667"
+     inkscape:zoom="2.1435957"
+     inkscape:cx="135.75321"
+     inkscape:cy="96.799972"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1182"
+     inkscape:window-height="1180"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -92,7 +71,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -101,15 +79,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-40,-106.17138)">
-    <rect
-       style="opacity:1;fill:#2a2a2a;fill-opacity:1;stroke:none;stroke-width:0.65972751;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4591"
-       width="150.209"
-       height="50"
-       x="40"
-       y="106.17138" />
     <g
-       transform="matrix(0.87756485,0,0,-0.87756485,33.394205,165.07553)"
+       transform="matrix(0.23218903,0,0,-0.23218903,38.252217,121.75644)"
        inkscape:label="sci-lg-eng-white"
        id="g5131">
       <path
@@ -176,7 +147,7 @@
       </g>
     </g>
     <g
-       transform="matrix(0.87756484,0,0,-0.87756484,108.3942,165.07553)"
+       transform="matrix(0.23218903,0,0,-0.23218903,58.095965,121.75644)"
        inkscape:label="sci-lg-eng-white"
        id="g5131-2"
        style="fill:#00af3f;fill-opacity:1">

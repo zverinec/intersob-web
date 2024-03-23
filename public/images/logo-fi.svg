@@ -2,23 +2,23 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="150.209mm"
-   height="50mm"
-   viewBox="0 0 150.209 50"
+   width="150"
+   height="50"
+   viewBox="0 0 39.687499 13.229167"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
-   sodipodi:docname="intersob-fi.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo-fi.svg"
    inkscape:export-filename="/home/apophis/jan/KSI/intersob-web/public/images/logo-prf.png"
    inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4">
+   inkscape:export-ydpi="25.4"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2">
     <clipPath
@@ -85,21 +85,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="366.00511"
-     inkscape:cy="2.2190667"
+     inkscape:zoom="2.7348135"
+     inkscape:cx="157.23193"
+     inkscape:cy="86.843218"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="960"
-     inkscape:window-height="1182"
+     inkscape:window-width="1920"
+     inkscape:window-height="1180"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -108,7 +111,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -117,15 +119,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-40,-106.17138)">
-    <rect
-       style="opacity:1;fill:#2a2a2a;fill-opacity:1;stroke:none;stroke-width:0.65972751;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4591"
-       width="150.209"
-       height="50"
-       x="40"
-       y="106.17138" />
     <g
-       transform="matrix(0.87756485,0,0,-0.87756485,33.395082,165.15438)"
+       transform="matrix(0.23218903,0,0,-0.23218903,38.252449,121.7773)"
        inkscape:label="inf-lg-cze-white"
        id="g5291">
       <path
@@ -183,7 +178,7 @@
       </g>
     </g>
     <g
-       transform="matrix(0.87756484,0,0,-0.87756484,108.39508,165.15438)"
+       transform="matrix(0.23218903,0,0,-0.23218903,58.096198,121.7773)"
        inkscape:label="inf-lg-cze-white"
        id="g5291-3"
        style="fill:#f2d45c;fill-opacity:1">

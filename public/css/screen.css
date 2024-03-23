@@ -102,9 +102,9 @@ form.login-form label { font-size: 115%; font-weight: bold; }
 img.sob { width: 200px; height: 165px; border: none; float: right; }
 
 /* specific logos */
-.muni-logo { background-image:url('../images/logo-mu.png'); }
-.fi-logo { background-image:url('../images/logo-fi.png'); }
-.prf-logo { background-image:url('../images/logo-prf.png'); }
+.muni-logo { background-image:url('../images/logo-mu.svg'); }
+.fi-logo { background-image:url('../images/logo-fi.svg'); }
+.prf-logo { background-image:url('../images/logo-prf.svg'); }
 .brkos-logo { background-image:url('../images/logo-brkos.png'); }
 .ibis-logo { background-image:url('../images/logo-ibis.png'); }
 .ksi-logo { background-image:url('../images/logo-ksi.png'); }
