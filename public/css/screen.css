@@ -30,6 +30,7 @@ hr.menu-rule { float:right; width: 4px; height: 70px; border: none; background-c
 
 /* footer */
 div.footer { position: absolute; bottom: 0; min-height: 80px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); }
+div.footer-placeholder { visibility: hidden; display: block; min-height: 80px; width: 100%; min-width: 300px; background-color: rgb(42,42,42); }
 div.footer-info { float: left; min-width: 250px; color: rgb(242,242,242); padding: 10px 5% 10px 5%; font-size: 80%; text-align: left; }
 .email { color: rgb(242,242,242); text-indent: 20px; }
 div.footer-logos { float: right; padding: 15px 5% 5px 5%; min-width: 250px; text-align: right; }
