@@ -112,6 +112,7 @@ img.sob { width: 200px; height: 165px; border: none; float: right; }
 .zisk-logo { background-image:url('../images/logo-zisk.svg'); }
 .interlos-logo { background-image:url('../images/logo-los.png'); }
 .brnoc-logo { background-image:url('../images/logo-brnoc.svg'); }
+.mam-logo { background-image:url('../images/logo-mam.png'); }
 .udif-logo { background-image:url('../images/logo-udif.png'); }
 
 /* content specific styles */
