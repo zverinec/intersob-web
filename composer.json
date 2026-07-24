@@ -1,5 +1,5 @@
 {
-	"name": "jandrabek/intersob-web",
+	"name": "zverinec/intersob-web",
 	"description": "Website for INTERSOB events.",
 	"license": ["proprietary"],
 	"homepage": "http://intersob.math.muni.cz",
@@ -9,8 +9,8 @@
 			"homepage": "http://www.jandrabek.cz"
 		},
 		{
-			"name": "Organizátoři KS a další",
-			"homepage": "http://ks.math.muni.cz/"
+			"name": "Spolek přátel severské zvěře",
+			"homepage": "http://zverinec.fi.muni.cz/"
 		}
 	],
 	"require": {
